@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.20 – 2026-11-05
+
+Internet przez aplikację: AI samo wyszukuje (DuckDuckGo) i czyta strony oraz dane z API przez telefon – działa z każdym dostawcą (drugi przełącznik w ustawieniach projektu; dotychczasowy to teraz „Dostęp do internetu przez dostawcę”). Tryb Jasny/Ciemny/Auto w każdym projekcie (domyślnie jak w aplikacji). Ustawienia projektu pokazują globalny model, poziom myślenia i długość odpowiedzi ze środowiska.
+
 ## 0.1.19 – 2026-11-05
 
 Okienka i menu są kryjące i czytelne we wszystkich motywach. Osobne „Pliki” i „Konsola błędów” (z liczbą nowych błędów), a AI samo czyta konsolę. Zrzuty ekranu działają z modelami, które przyjmują tylko jeden obraz (np. Nemotron VL). Działania projektu w menu ⋮ zamiast w informacjach.
