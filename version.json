@@ -1,8 +1,8 @@
 {
-  "versionCode": 18,
-  "versionName": "0.1.18",
-  "changes": "Tekst czytelny we wszystkich motywach (także ciemnych). Podgląd plików z kolorowaniem składni, Markdown jako podgląd, zawijanie i A−/A+. Lista modeli nie zawiesza się – okienko postępu i czytelny błąd. Import projektu z „+” i przez „Udostępnij → Andrut”.",
+  "versionCode": 19,
+  "versionName": "0.1.19",
+  "changes": "Okienka i menu są kryjące i czytelne we wszystkich motywach. Osobne „Pliki” i „Konsola błędów” (z liczbą nowych błędów), a AI samo czyta konsolę. Zrzuty ekranu działają z modelami, które przyjmują tylko jeden obraz (np. Nemotron VL). Działania projektu w menu ⋮ zamiast w informacjach.",
   "apk": "andrut.apk",
-  "sha256": "f350829e3bf2e86ec3607647e00e1c042733e6cac5f74b11b4874bdc4a0b74f0",
-  "size": 21890061
+  "sha256": "ce3a62dd4dc82bb4d38a93dbd4539fe8da7ffbbb8e5a6c8308df21869e676ce6",
+  "size": 21888213
 }
