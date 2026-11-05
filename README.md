@@ -1,7 +1,43 @@
 # Andrut – wydania
 
-Najnowsza wersja: **0.1.10** ([andrut.apk](andrut.apk))
+Andrut to demo aplikacji na Androida (telefon i tablet), w której razem z AI budujesz „światy” –
+małe aplikacje tworzone i zmieniane na bieżąco w czacie lub głosem.
+
+**Najnowsza wersja: 0.1.10** – [pobierz andrut.apk](https://github.com/zysiek77/andrut-releases/raw/main/andrut.apk)
+
+## Pierwsza instalacja
+1. Otwórz link do `andrut.apk` na telefonie lub tablecie i pobierz plik.
+2. Otwórz pobrany plik. Android zapyta o zgodę na instalację z tego źródła (przeglądarki / menedżera plików) – zezwól.
+3. Zainstaluj i uruchom. Do rozmowy z AI potrzebny jest klucz API (Claude, OpenAI, Gemini, Grok lub OpenRouter) – wpisujesz go w ustawieniach środowiska.
+
+## Aktualizacje
+Aplikacja sama sprawdza [`version.json`](version.json) przy starcie (i przyciskiem w ustawieniach),
+pobiera nową wersję, sprawdza sumę SHA-256 i otwiera okno instalacji. Za pierwszym razem Android poprosi
+o zgodę „Instaluj nieznane aplikacje” dla Andruta. Każda wersja jest podpisana tym samym kluczem,
+więc instaluje się jako aktualizacja – bez utraty danych.
+
+## Historia zmian
+## 0.1.10 – 2026-11-05
 
 Formatowanie odpowiedzi AI, kopiowanie (przytrzymaj dymek lub 📋), edycja własnej wiadomości, poziom myślenia i streszczenie 💭, wyszukiwanie modeli, styl odpowiedzi (domyślnie zwięzły), Piper nie ucina początku, poprawka Aurory na tablecie.
 
-Aplikacja sama sprawdza `version.json` i proponuje aktualizację.
+## 0.1.8 – 2026-11-05
+
+Piper nie ucina już początku i końca wypowiedzi. 7 nowoczesnych motywów graficznych (projekt + aplikacja) z trybem Auto/Jasny/Ciemny. Aktualizacje prosto z aplikacji.
+
+## 0.1.6 – 2026-11-04
+
+Głosy systemowe i neuronowe Piper (offline), głos per projekt; przełącznik czat/podgląd w pasku; AI widzi stan świata (dane, dziennik, tekst ekranu); zrzut ekranu świata za zgodą; karty pytań z opcjami; informacje o tokenach i plikach.
+
+## 0.1.4 – 2026-11-04
+
+Odpowiedź głosem tylko po pytaniu głosowym; ikona 🔊 pod odpowiedziami.
+
+## 0.1.3 – 2026-11-04
+
+Układ dla tabletów i poziomej orientacji.
+
+## 0.1 – 2026-11-04
+
+Pierwsza wersja: środowiska, projekty, wielu dostawców AI, czat i rozmowa głosowa, świat HTML/JS w podglądzie.
+
