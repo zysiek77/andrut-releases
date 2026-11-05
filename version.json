@@ -1,8 +1,8 @@
 {
-  "versionCode": 21,
-  "versionName": "0.1.21",
-  "changes": "Poprawka: przy przełączaniu Świat/Czat nie znika wpisany tekst, a czat zostaje w tym samym miejscu (bez przewijania). Niewysłany szkic jest zapamiętywany osobno dla każdego projektu, także po zamknięciu aplikacji.",
+  "versionCode": 22,
+  "versionName": "0.1.22",
+  "changes": "Przywracanie projektu z pliku ZIP (menu ⋮): wybierasz, co przywrócić – pliki świata, dane świata, rozmowę, ustawienia; ostrzeżenie, gdy plik jest z innego projektu (można go też zaimportować jako nowy); automatyczna kopia i „Cofnij przywrócenie”. Automatyczne streszczenie rozmowy domyślnie przy 150 tys. tokenów, z możliwością zmiany w ustawieniach środowiska i projektu (także wyłączenia); w ℹ️ widać kontekst / próg.",
   "apk": "andrut.apk",
-  "sha256": "58f93c0605d93f3dcae23df6bf915c7c28d128224584659db99c8fcc7778d15e",
-  "size": 21903753
+  "sha256": "ab5a2d08ffdbc07fba59ee8a801cba716e4d15b81cdddd111b534d68a79b41df",
+  "size": 21912353
 }

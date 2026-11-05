@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.22 – 2026-11-05
+
+Przywracanie projektu z pliku ZIP (menu ⋮): wybierasz, co przywrócić – pliki świata, dane świata, rozmowę, ustawienia; ostrzeżenie, gdy plik jest z innego projektu (można go też zaimportować jako nowy); automatyczna kopia i „Cofnij przywrócenie”. Automatyczne streszczenie rozmowy domyślnie przy 150 tys. tokenów, z możliwością zmiany w ustawieniach środowiska i projektu (także wyłączenia); w ℹ️ widać kontekst / próg.
+
 ## 0.1.21 – 2026-11-05
 
 Poprawka: przy przełączaniu Świat/Czat nie znika wpisany tekst, a czat zostaje w tym samym miejscu (bez przewijania). Niewysłany szkic jest zapamiętywany osobno dla każdego projektu, także po zamknięciu aplikacji.
