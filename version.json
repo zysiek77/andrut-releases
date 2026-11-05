@@ -1,8 +1,8 @@
 {
-  "versionCode": 12,
-  "versionName": "0.1.12",
-  "changes": "Odpowiedź AI na żywo (streaming) – koniec z „błędem sieci” przy długim myśleniu, automatyczne ponowienie i praca w tle z powiadomieniem. Zaznaczanie tekstu w dymkach, ikonki ✏️/📋, edycja zawsze dostępna. Opcjonalny dostęp AI do internetu ze źródłami. Auto-naprawa: 3 próby.",
+  "versionCode": 13,
+  "versionName": "0.1.13",
+  "changes": "Przycisk ◀ i gest wstecz w świecie, ↩️ cofnij zmiany AI, ⛶ pełny ekran i skrót świata na ekranie głównym. Zdjęcia w czacie (📎), rozmowa bez rąk (🎧), streszczanie długich rozmów (taniej), szybsze poprawki plików. Świat może używać aparatu, lokalizacji, czujnika ruchu i przypomnień. Eksport/import projektu, dziennik błędów do wysłania.",
   "apk": "andrut.apk",
-  "sha256": "93965ae7655e5b13c2b52b8d8bf9557b2539da9f65527e562b31fafc45111785",
-  "size": 21791202
+  "sha256": "8bc3ef753af96d011c6800e5ede9c64d640bc5f8ea1a93fda77f7125d2bb9d21",
+  "size": 21841629
 }
