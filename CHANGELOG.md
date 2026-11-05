@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.21 – 2026-11-05
+
+Poprawka: przy przełączaniu Świat/Czat nie znika wpisany tekst, a czat zostaje w tym samym miejscu (bez przewijania). Niewysłany szkic jest zapamiętywany osobno dla każdego projektu, także po zamknięciu aplikacji.
+
 ## 0.1.20 – 2026-11-05
 
 Internet przez aplikację: AI samo wyszukuje (DuckDuckGo) i czyta strony oraz dane z API przez telefon – działa z każdym dostawcą (drugi przełącznik w ustawieniach projektu; dotychczasowy to teraz „Dostęp do internetu przez dostawcę”). Tryb Jasny/Ciemny/Auto w każdym projekcie (domyślnie jak w aplikacji). Ustawienia projektu pokazują globalny model, poziom myślenia i długość odpowiedzi ze środowiska.

@@ -1,8 +1,8 @@
 {
-  "versionCode": 20,
-  "versionName": "0.1.20",
-  "changes": "Internet przez aplikację: AI samo wyszukuje (DuckDuckGo) i czyta strony oraz dane z API przez telefon – działa z każdym dostawcą (drugi przełącznik w ustawieniach projektu; dotychczasowy to teraz „Dostęp do internetu przez dostawcę”). Tryb Jasny/Ciemny/Auto w każdym projekcie (domyślnie jak w aplikacji). Ustawienia projektu pokazują globalny model, poziom myślenia i długość odpowiedzi ze środowiska.",
+  "versionCode": 21,
+  "versionName": "0.1.21",
+  "changes": "Poprawka: przy przełączaniu Świat/Czat nie znika wpisany tekst, a czat zostaje w tym samym miejscu (bez przewijania). Niewysłany szkic jest zapamiętywany osobno dla każdego projektu, także po zamknięciu aplikacji.",
   "apk": "andrut.apk",
-  "sha256": "9089e4fcbfd1cc8c841bacd2e0b81f23283373ed603c78fb627b61a64d76e376",
-  "size": 21898273
+  "sha256": "58f93c0605d93f3dcae23df6bf915c7c28d128224584659db99c8fcc7778d15e",
+  "size": 21903753
 }
