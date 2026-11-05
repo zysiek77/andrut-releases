@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.15 – 2026-11-05
+
+Skrót na ekranie głównym: potwierdzenie albo okienko z przyciskiem do uprawnień. Przyciski ◀ ⛶ ⟳ w górnym pasku (na telefonie w menu ⋮). „Cofnij zmiany” pod ostatnią odpowiedzią AI, z potwierdzeniem. Gry i prezentacje mieszczą się w oknie. Aktualizacje sprawdzane też po powrocie do aplikacji.
+
 ## 0.1.14 – 2026-11-05
 
 Poprawka: aplikacja nie wysypuje się już przy otwieraniu projektu, który ma świat.

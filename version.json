@@ -1,8 +1,8 @@
 {
-  "versionCode": 14,
-  "versionName": "0.1.14",
-  "changes": "Poprawka: aplikacja nie wysypuje się już przy otwieraniu projektu, który ma świat.",
+  "versionCode": 15,
+  "versionName": "0.1.15",
+  "changes": "Skrót na ekranie głównym: potwierdzenie albo okienko z przyciskiem do uprawnień. Przyciski ◀ ⛶ ⟳ w górnym pasku (na telefonie w menu ⋮). „Cofnij zmiany” pod ostatnią odpowiedzią AI, z potwierdzeniem. Gry i prezentacje mieszczą się w oknie. Aktualizacje sprawdzane też po powrocie do aplikacji.",
   "apk": "andrut.apk",
-  "sha256": "a2be1155b942aa88d7ce45086716028ff405ddc1a1096e1302dc56b4357e383f",
-  "size": 21841709
+  "sha256": "56eb975ae444d7f0fcd4e1a433abb5d01ba55f92adcc9bffaf59b69a2102179e",
+  "size": 21849749
 }
