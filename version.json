@@ -1,8 +1,8 @@
 {
-  "versionCode": 10,
-  "versionName": "0.1.10",
-  "changes": "Formatowanie odpowiedzi AI, kopiowanie (przytrzymaj dymek lub 📋), edycja własnej wiadomości, poziom myślenia i streszczenie 💭, wyszukiwanie modeli, styl odpowiedzi (domyślnie zwięzły), Piper nie ucina początku, poprawka Aurory na tablecie.",
+  "versionCode": 12,
+  "versionName": "0.1.12",
+  "changes": "Odpowiedź AI na żywo (streaming) – koniec z „błędem sieci” przy długim myśleniu, automatyczne ponowienie i praca w tle z powiadomieniem. Zaznaczanie tekstu w dymkach, ikonki ✏️/📋, edycja zawsze dostępna. Opcjonalny dostęp AI do internetu ze źródłami. Auto-naprawa: 3 próby.",
   "apk": "andrut.apk",
-  "sha256": "7b7b98208b5f4979199bf6979f56ef72eccaefd9d350ce5b8a6c921ce078cbe3",
-  "size": 21781418
+  "sha256": "93965ae7655e5b13c2b52b8d8bf9557b2539da9f65527e562b31fafc45111785",
+  "size": 21791202
 }

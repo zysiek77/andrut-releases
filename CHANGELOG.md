@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.12 – 2026-11-05
+
+Odpowiedź AI na żywo (streaming) – koniec z „błędem sieci” przy długim myśleniu, automatyczne ponowienie i praca w tle z powiadomieniem. Zaznaczanie tekstu w dymkach, ikonki ✏️/📋, edycja zawsze dostępna. Opcjonalny dostęp AI do internetu ze źródłami. Auto-naprawa: 3 próby.
+
 ## 0.1.10 – 2026-11-05
 
 Formatowanie odpowiedzi AI, kopiowanie (przytrzymaj dymek lub 📋), edycja własnej wiadomości, poziom myślenia i streszczenie 💭, wyszukiwanie modeli, styl odpowiedzi (domyślnie zwięzły), Piper nie ucina początku, poprawka Aurory na tablecie.
