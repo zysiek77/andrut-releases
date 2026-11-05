@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.17 – 2026-11-05
+
+Zrzuty ekranu i podgląd świata dla AI działają też w poziomie, po pełnym ekranie i w trybie z wysuwanym czatem. Nowe: „Zrzut świata” w menu 📎, duplikowanie projektów (gałęzie z innym motywem), AGENTS.md – dokumentacja projektu prowadzona przez AI.
+
 ## 0.1.16 – 2026-11-05
 
 Nowe: „Pliki i konsola” – lista plików świata, podgląd treści, ostrzeżenia o brakujących plikach i konsola błędów z „Wyślij do AI”. Maks. długość odpowiedzi do ustawienia; koniec błędu 402 w OpenRouterze przy zwykłych rozmowach. Błędy w czacie da się skopiować.

@@ -1,8 +1,8 @@
 {
-  "versionCode": 16,
-  "versionName": "0.1.16",
-  "changes": "Nowe: „Pliki i konsola” – lista plików świata, podgląd treści, ostrzeżenia o brakujących plikach i konsola błędów z „Wyślij do AI”. Maks. długość odpowiedzi do ustawienia; koniec błędu 402 w OpenRouterze przy zwykłych rozmowach. Błędy w czacie da się skopiować.",
+  "versionCode": 17,
+  "versionName": "0.1.17",
+  "changes": "Zrzuty ekranu i podgląd świata dla AI działają też w poziomie, po pełnym ekranie i w trybie z wysuwanym czatem. Nowe: „Zrzut świata” w menu 📎, duplikowanie projektów (gałęzie z innym motywem), AGENTS.md – dokumentacja projektu prowadzona przez AI.",
   "apk": "andrut.apk",
-  "sha256": "dd4491352346d74331630e0d7b69a99a3f69c6f8be82ce1a8b6a6575d29edc5f",
-  "size": 21869425
+  "sha256": "bffc1ddefdbf08177bd4d19357b36b613073ab1fb1fb845b59d1b6ac4ed20de6",
+  "size": 21875033
 }
