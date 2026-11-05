@@ -1,8 +1,8 @@
 {
-  "versionCode": 13,
-  "versionName": "0.1.13",
-  "changes": "Przycisk ◀ i gest wstecz w świecie, ↩️ cofnij zmiany AI, ⛶ pełny ekran i skrót świata na ekranie głównym. Zdjęcia w czacie (📎), rozmowa bez rąk (🎧), streszczanie długich rozmów (taniej), szybsze poprawki plików. Świat może używać aparatu, lokalizacji, czujnika ruchu i przypomnień. Eksport/import projektu, dziennik błędów do wysłania.",
+  "versionCode": 14,
+  "versionName": "0.1.14",
+  "changes": "Poprawka: aplikacja nie wysypuje się już przy otwieraniu projektu, który ma świat.",
   "apk": "andrut.apk",
-  "sha256": "8bc3ef753af96d011c6800e5ede9c64d640bc5f8ea1a93fda77f7125d2bb9d21",
-  "size": 21841629
+  "sha256": "a2be1155b942aa88d7ce45086716028ff405ddc1a1096e1302dc56b4357e383f",
+  "size": 21841709
 }

@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.14 – 2026-11-05
+
+Poprawka: aplikacja nie wysypuje się już przy otwieraniu projektu, który ma świat.
+
 ## 0.1.13 – 2026-11-05
 
 Przycisk ◀ i gest wstecz w świecie, ↩️ cofnij zmiany AI, ⛶ pełny ekran i skrót świata na ekranie głównym. Zdjęcia w czacie (📎), rozmowa bez rąk (🎧), streszczanie długich rozmów (taniej), szybsze poprawki plików. Świat może używać aparatu, lokalizacji, czujnika ruchu i przypomnień. Eksport/import projektu, dziennik błędów do wysłania.
