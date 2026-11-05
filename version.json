@@ -1,8 +1,8 @@
 {
-  "versionCode": 17,
-  "versionName": "0.1.17",
-  "changes": "Zrzuty ekranu i podgląd świata dla AI działają też w poziomie, po pełnym ekranie i w trybie z wysuwanym czatem. Nowe: „Zrzut świata” w menu 📎, duplikowanie projektów (gałęzie z innym motywem), AGENTS.md – dokumentacja projektu prowadzona przez AI.",
+  "versionCode": 18,
+  "versionName": "0.1.18",
+  "changes": "Tekst czytelny we wszystkich motywach (także ciemnych). Podgląd plików z kolorowaniem składni, Markdown jako podgląd, zawijanie i A−/A+. Lista modeli nie zawiesza się – okienko postępu i czytelny błąd. Import projektu z „+” i przez „Udostępnij → Andrut”.",
   "apk": "andrut.apk",
-  "sha256": "bffc1ddefdbf08177bd4d19357b36b613073ab1fb1fb845b59d1b6ac4ed20de6",
-  "size": 21875033
+  "sha256": "f350829e3bf2e86ec3607647e00e1c042733e6cac5f74b11b4874bdc4a0b74f0",
+  "size": 21890061
 }

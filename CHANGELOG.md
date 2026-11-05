@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.18 – 2026-11-05
+
+Tekst czytelny we wszystkich motywach (także ciemnych). Podgląd plików z kolorowaniem składni, Markdown jako podgląd, zawijanie i A−/A+. Lista modeli nie zawiesza się – okienko postępu i czytelny błąd. Import projektu z „+” i przez „Udostępnij → Andrut”.
+
 ## 0.1.17 – 2026-11-05
 
 Zrzuty ekranu i podgląd świata dla AI działają też w poziomie, po pełnym ekranie i w trybie z wysuwanym czatem. Nowe: „Zrzut świata” w menu 📎, duplikowanie projektów (gałęzie z innym motywem), AGENTS.md – dokumentacja projektu prowadzona przez AI.
