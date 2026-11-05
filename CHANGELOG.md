@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.16 – 2026-11-05
+
+Nowe: „Pliki i konsola” – lista plików świata, podgląd treści, ostrzeżenia o brakujących plikach i konsola błędów z „Wyślij do AI”. Maks. długość odpowiedzi do ustawienia; koniec błędu 402 w OpenRouterze przy zwykłych rozmowach. Błędy w czacie da się skopiować.
+
 ## 0.1.15 – 2026-11-05
 
 Skrót na ekranie głównym: potwierdzenie albo okienko z przyciskiem do uprawnień. Przyciski ◀ ⛶ ⟳ w górnym pasku (na telefonie w menu ⋮). „Cofnij zmiany” pod ostatnią odpowiedzią AI, z potwierdzeniem. Gry i prezentacje mieszczą się w oknie. Aktualizacje sprawdzane też po powrocie do aplikacji.

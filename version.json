@@ -1,8 +1,8 @@
 {
-  "versionCode": 15,
-  "versionName": "0.1.15",
-  "changes": "Skrót na ekranie głównym: potwierdzenie albo okienko z przyciskiem do uprawnień. Przyciski ◀ ⛶ ⟳ w górnym pasku (na telefonie w menu ⋮). „Cofnij zmiany” pod ostatnią odpowiedzią AI, z potwierdzeniem. Gry i prezentacje mieszczą się w oknie. Aktualizacje sprawdzane też po powrocie do aplikacji.",
+  "versionCode": 16,
+  "versionName": "0.1.16",
+  "changes": "Nowe: „Pliki i konsola” – lista plików świata, podgląd treści, ostrzeżenia o brakujących plikach i konsola błędów z „Wyślij do AI”. Maks. długość odpowiedzi do ustawienia; koniec błędu 402 w OpenRouterze przy zwykłych rozmowach. Błędy w czacie da się skopiować.",
   "apk": "andrut.apk",
-  "sha256": "56eb975ae444d7f0fcd4e1a433abb5d01ba55f92adcc9bffaf59b69a2102179e",
-  "size": 21849749
+  "sha256": "dd4491352346d74331630e0d7b69a99a3f69c6f8be82ce1a8b6a6575d29edc5f",
+  "size": 21869425
 }
