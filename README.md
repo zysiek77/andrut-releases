@@ -1,7 +1,7 @@
 # Andrut – wydania
 
-Najnowsza wersja: **0.1.8** ([andrut.apk](andrut.apk))
+Najnowsza wersja: **0.1.10** ([andrut.apk](andrut.apk))
 
-Piper nie ucina już początku i końca wypowiedzi. 7 nowoczesnych motywów graficznych (projekt + aplikacja) z trybem Auto/Jasny/Ciemny. Aktualizacje prosto z aplikacji.
+Formatowanie odpowiedzi AI, kopiowanie (przytrzymaj dymek lub 📋), edycja własnej wiadomości, poziom myślenia i streszczenie 💭, wyszukiwanie modeli, styl odpowiedzi (domyślnie zwięzły), Piper nie ucina początku, poprawka Aurory na tablecie.
 
 Aplikacja sama sprawdza `version.json` i proponuje aktualizację.

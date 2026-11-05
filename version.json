@@ -1,8 +1,8 @@
 {
-  "versionCode": 8,
-  "versionName": "0.1.8",
-  "changes": "Piper nie ucina już początku i końca wypowiedzi. 7 nowoczesnych motywów graficznych (projekt + aplikacja) z trybem Auto/Jasny/Ciemny. Aktualizacje prosto z aplikacji.",
+  "versionCode": 10,
+  "versionName": "0.1.10",
+  "changes": "Formatowanie odpowiedzi AI, kopiowanie (przytrzymaj dymek lub 📋), edycja własnej wiadomości, poziom myślenia i streszczenie 💭, wyszukiwanie modeli, styl odpowiedzi (domyślnie zwięzły), Piper nie ucina początku, poprawka Aurory na tablecie.",
   "apk": "andrut.apk",
-  "sha256": "a33b66260bf5302281f5b47b1f8a195d9b4b431f9afdf64152bc41b30160a9a6",
-  "size": 21740122
+  "sha256": "7b7b98208b5f4979199bf6979f56ef72eccaefd9d350ce5b8a6c921ce078cbe3",
+  "size": 21781418
 }
