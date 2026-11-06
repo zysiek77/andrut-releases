@@ -1,8 +1,8 @@
 {
-  "versionCode": 29,
-  "versionName": "0.1.29",
-  "changes": "Dziennik: gdy model wyśle zepsute dane narzędzia, zapisuje się powód zakończenia odpowiedzi i surowe kawałki strumienia – do diagnozy nieudanych zapisów plików.",
-  "apk": "andrut.apk",
-  "sha256": "9c56c6b91dc199698cbc1cfba46bcb5fb6d84b41af64a2ee28353aaa09495e28",
-  "size": 21931889
+  "versionCode": 30,
+  "versionName": "0.1.30",
+  "changes": "Gdy dostawca przerwie odpowiedź w trakcie zapisu pliku, AI dostaje prawdziwą przyczynę i radę (mniejsze części), a w czacie widać ❌ z nazwą pliku i tym, co przekazano modelowi. Aktualizacje nie trafiają już na stary plik z cache GitHuba.",
+  "apk": "andrut-0.1.30.apk",
+  "sha256": "0450acae7d343784a7697d3e2153d54f5d4f589244e61f222c7aead2f2db2e81",
+  "size": 21934857
 }
