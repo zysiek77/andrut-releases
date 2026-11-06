@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.31 – 2026-11-06
+
+Gdy model wklei wywołanie narzędzia jako tekst (<invoke …>), Andrut je odczytuje i wykonuje (w czacie dopisek „odczytano z tekstu”); urwane nie są wykonywane, a model dostaje wyjaśnienie.
+
 ## 0.1.30 – 2026-11-06
 
 Gdy dostawca przerwie odpowiedź w trakcie zapisu pliku, AI dostaje prawdziwą przyczynę i radę (mniejsze części), a w czacie widać ❌ z nazwą pliku i tym, co przekazano modelowi. Aktualizacje nie trafiają już na stary plik z cache GitHuba.

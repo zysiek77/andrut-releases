@@ -1,8 +1,8 @@
 {
-  "versionCode": 30,
-  "versionName": "0.1.30",
-  "changes": "Gdy dostawca przerwie odpowiedź w trakcie zapisu pliku, AI dostaje prawdziwą przyczynę i radę (mniejsze części), a w czacie widać ❌ z nazwą pliku i tym, co przekazano modelowi. Aktualizacje nie trafiają już na stary plik z cache GitHuba.",
-  "apk": "andrut-0.1.30.apk",
-  "sha256": "0450acae7d343784a7697d3e2153d54f5d4f589244e61f222c7aead2f2db2e81",
-  "size": 21934857
+  "versionCode": 31,
+  "versionName": "0.1.31",
+  "changes": "Gdy model wklei wywołanie narzędzia jako tekst (<invoke …>), Andrut je odczytuje i wykonuje (w czacie dopisek „odczytano z tekstu”); urwane nie są wykonywane, a model dostaje wyjaśnienie.",
+  "apk": "andrut-0.1.31.apk",
+  "sha256": "bcb16add019a55581de71ce4782449bf913f7dee001f5f5b7e63ed27efde5e72",
+  "size": 21936253
 }
