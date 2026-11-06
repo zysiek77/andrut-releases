@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.26 – 2026-11-06
+
+Nowa opcja projektu „Sprawdzaj świat po zmianach AI” (domyślnie wyłączona): po zmianach aplikacja sama sprawdza konsolę i czy świat coś wyświetla, a problemy odsyła AI do poprawki (maks. 2 razy). Czat przewija się za AI tylko przy dole; po przewinięciu w górę zostaje na miejscu, przycisk ↓ wraca na dół.
+
 ## 0.1.25 – 2026-11-06
 
 Naprawa błędu HTTP 400 z Cohere (OpenRouter, np. north-mini-code): argumenty wcześniejszych wywołań narzędzi w historii są teraz zawsze poprawnym obiektem JSON – czat, w którym inny model zapisał zepsute argumenty, znów działa. Obsługa argumentów narzędzi przysłanych jako obiekt.

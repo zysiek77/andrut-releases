@@ -1,8 +1,8 @@
 {
-  "versionCode": 25,
-  "versionName": "0.1.25",
-  "changes": "Naprawa błędu HTTP 400 z Cohere (OpenRouter, np. north-mini-code): argumenty wcześniejszych wywołań narzędzi w historii są teraz zawsze poprawnym obiektem JSON – czat, w którym inny model zapisał zepsute argumenty, znów działa. Obsługa argumentów narzędzi przysłanych jako obiekt.",
+  "versionCode": 26,
+  "versionName": "0.1.26",
+  "changes": "Nowa opcja projektu „Sprawdzaj świat po zmianach AI” (domyślnie wyłączona): po zmianach aplikacja sama sprawdza konsolę i czy świat coś wyświetla, a problemy odsyła AI do poprawki (maks. 2 razy). Czat przewija się za AI tylko przy dole; po przewinięciu w górę zostaje na miejscu, przycisk ↓ wraca na dół.",
   "apk": "andrut.apk",
-  "sha256": "d5d2c658126d9d476b6584890d4f4ccddbb9ce17436f46c7e39f506345ba61e7",
-  "size": 21913145
+  "sha256": "69c65fb241d36e13f7cb9ec557915a950e71e0c31618fd2c8141ab46a6547a94",
+  "size": 21920153
 }
