@@ -1,8 +1,8 @@
 {
-  "versionCode": 26,
-  "versionName": "0.1.26",
-  "changes": "Nowa opcja projektu „Sprawdzaj świat po zmianach AI” (domyślnie wyłączona): po zmianach aplikacja sama sprawdza konsolę i czy świat coś wyświetla, a problemy odsyła AI do poprawki (maks. 2 razy). Czat przewija się za AI tylko przy dole; po przewinięciu w górę zostaje na miejscu, przycisk ↓ wraca na dół.",
+  "versionCode": 27,
+  "versionName": "0.1.27",
+  "changes": "AI dostało narzędzia do sprawdzania własnej pracy: check_world (przeładowanie i raport błędów), run_js (stan świata), interact_world (klika, dotyka, naciska klawisze i patrzy na efekt) i check_syntax (składnia JS z numerami linii). AI ma ich używać, zanim napisze, że działa.",
   "apk": "andrut.apk",
-  "sha256": "69c65fb241d36e13f7cb9ec557915a950e71e0c31618fd2c8141ab46a6547a94",
-  "size": 21920153
+  "sha256": "7300a2c8f0d9215a9513b8e986f5409c68971d277d156b8081141d2a884af2ac",
+  "size": 21930241
 }

@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.27 – 2026-11-06
+
+AI dostało narzędzia do sprawdzania własnej pracy: check_world (przeładowanie i raport błędów), run_js (stan świata), interact_world (klika, dotyka, naciska klawisze i patrzy na efekt) i check_syntax (składnia JS z numerami linii). AI ma ich używać, zanim napisze, że działa.
+
 ## 0.1.26 – 2026-11-06
 
 Nowa opcja projektu „Sprawdzaj świat po zmianach AI” (domyślnie wyłączona): po zmianach aplikacja sama sprawdza konsolę i czy świat coś wyświetla, a problemy odsyła AI do poprawki (maks. 2 razy). Czat przewija się za AI tylko przy dole; po przewinięciu w górę zostaje na miejscu, przycisk ↓ wraca na dół.
