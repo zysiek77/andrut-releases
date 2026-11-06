@@ -1,8 +1,8 @@
 {
-  "versionCode": 28,
-  "versionName": "0.1.28",
-  "changes": "Dziennik zapisuje każde wywołanie narzędzia przez AI (plik, wynik, a przy błędzie surowe dane), żeby dało się sprawdzić, czemu zapisy nie wychodzą.",
+  "versionCode": 29,
+  "versionName": "0.1.29",
+  "changes": "Dziennik: gdy model wyśle zepsute dane narzędzia, zapisuje się powód zakończenia odpowiedzi i surowe kawałki strumienia – do diagnozy nieudanych zapisów plików.",
   "apk": "andrut.apk",
-  "sha256": "de10ce2dbc6c102c75214b2913d7effb79bb6ce0d5b2f27c18d263d9af37160d",
-  "size": 21931081
+  "sha256": "9c56c6b91dc199698cbc1cfba46bcb5fb6d84b41af64a2ee28353aaa09495e28",
+  "size": 21931889
 }

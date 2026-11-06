@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.29 – 2026-11-06
+
+Dziennik: gdy model wyśle zepsute dane narzędzia, zapisuje się powód zakończenia odpowiedzi i surowe kawałki strumienia – do diagnozy nieudanych zapisów plików.
+
 ## 0.1.28 – 2026-11-06
 
 Dziennik zapisuje każde wywołanie narzędzia przez AI (plik, wynik, a przy błędzie surowe dane), żeby dało się sprawdzić, czemu zapisy nie wychodzą.
