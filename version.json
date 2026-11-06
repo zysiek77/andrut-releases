@@ -1,8 +1,8 @@
 {
-  "versionCode": 27,
-  "versionName": "0.1.27",
-  "changes": "AI dostało narzędzia do sprawdzania własnej pracy: check_world (przeładowanie i raport błędów), run_js (stan świata), interact_world (klika, dotyka, naciska klawisze i patrzy na efekt) i check_syntax (składnia JS z numerami linii). AI ma ich używać, zanim napisze, że działa.",
+  "versionCode": 28,
+  "versionName": "0.1.28",
+  "changes": "Dziennik zapisuje każde wywołanie narzędzia przez AI (plik, wynik, a przy błędzie surowe dane), żeby dało się sprawdzić, czemu zapisy nie wychodzą.",
   "apk": "andrut.apk",
-  "sha256": "7300a2c8f0d9215a9513b8e986f5409c68971d277d156b8081141d2a884af2ac",
-  "size": 21930241
+  "sha256": "de10ce2dbc6c102c75214b2913d7effb79bb6ce0d5b2f27c18d263d9af37160d",
+  "size": 21931081
 }

@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.28 – 2026-11-06
+
+Dziennik zapisuje każde wywołanie narzędzia przez AI (plik, wynik, a przy błędzie surowe dane), żeby dało się sprawdzić, czemu zapisy nie wychodzą.
+
 ## 0.1.27 – 2026-11-06
 
 AI dostało narzędzia do sprawdzania własnej pracy: check_world (przeładowanie i raport błędów), run_js (stan świata), interact_world (klika, dotyka, naciska klawisze i patrzy na efekt) i check_syntax (składnia JS z numerami linii). AI ma ich używać, zanim napisze, że działa.
