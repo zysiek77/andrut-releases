@@ -1,8 +1,8 @@
 {
-  "versionCode": 24,
-  "versionName": "0.1.24",
-  "changes": "Naprawiony czarny ekran w światach: podgląd ma pełny rozmiar, więc 100vh/100dvh działa (wcześniej wynosiło 0 px). Dziennik zapisuje wczytanie świata i rozmiar okna, a po awarii silnika podglądu świat uruchamia się ponownie sam.",
+  "versionCode": 25,
+  "versionName": "0.1.25",
+  "changes": "Naprawa błędu HTTP 400 z Cohere (OpenRouter, np. north-mini-code): argumenty wcześniejszych wywołań narzędzi w historii są teraz zawsze poprawnym obiektem JSON – czat, w którym inny model zapisał zepsute argumenty, znów działa. Obsługa argumentów narzędzi przysłanych jako obiekt.",
   "apk": "andrut.apk",
-  "sha256": "7640976986c31bb4bdb65a42b009b205ff890c310122cca7923437e76c6916d1",
-  "size": 21912861
+  "sha256": "d5d2c658126d9d476b6584890d4f4ccddbb9ce17436f46c7e39f506345ba61e7",
+  "size": 21913145
 }
