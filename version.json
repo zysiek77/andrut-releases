@@ -1,8 +1,8 @@
 {
-  "versionCode": 31,
-  "versionName": "0.1.31",
-  "changes": "Gdy model wklei wywołanie narzędzia jako tekst (<invoke …>), Andrut je odczytuje i wykonuje (w czacie dopisek „odczytano z tekstu”); urwane nie są wykonywane, a model dostaje wyjaśnienie.",
-  "apk": "andrut-0.1.31.apk",
-  "sha256": "bcb16add019a55581de71ce4782449bf913f7dee001f5f5b7e63ed27efde5e72",
-  "size": 21936253
+  "versionCode": 32,
+  "versionName": "0.1.32",
+  "changes": "Konsola po przeładowaniu świata pokazuje tylko nowe wpisy (starsze pod „Pokaż wcześniejsze”), także dla AI. W czacie widać kod i wynik run_js oraz parametry i wyniki pozostałych narzędzi sprawdzających.",
+  "apk": "andrut-0.1.32.apk",
+  "sha256": "bec16cd76b71bfc36a851acf3bad4134efa9cf14be4005b88daec7c716a30fa8",
+  "size": 21939377
 }
