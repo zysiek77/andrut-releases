@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.34 – 2026-11-07
+
+W czacie widać, jakie pliki model czyta (oraz konsolę, ogląd świata i dane świata) – z wynikiem do rozwinięcia.
+
 ## 0.1.33 – 2026-11-07
 
 Zrzuty świata 3D nie są już czarne (dla Ciebie i dla AI). Przy przerwanej transmisji Andrut nie wykonuje żadnego narzędzia z urwanej odpowiedzi. Dziennik zapisuje, czym kończy się każda odpowiedź modelu.
