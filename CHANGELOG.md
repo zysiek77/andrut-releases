@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.37 – 2026-11-07
+
+Praca etapami: AI planuje tylko zadania do wykonania – przy pytaniach, rozmowie i drobnych poprawkach odpowiada bez planu.
+
 ## 0.1.35 – 2026-11-07
 
 Nowa opcja projektu „Praca etapami”: AI pokazuje plan do akceptacji, realizuje go punkt po punkcie, oznacza gotowe tylko po sprawdzeniu (z opisem testu), jest ponaglane przy niedokończonym planie i kończy raportem.
