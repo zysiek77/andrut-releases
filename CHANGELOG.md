@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.38 – 2026-11-07
+
+Przycisk „Aktualizuj” najpierw sprawdza, czy nie ma jeszcze nowszej wersji, i pobiera najnowszą (wcześniej baner mógł wskazywać starszą wersję, której pliku już nie było).
+
 ## 0.1.37 – 2026-11-07
 
 Praca etapami: AI planuje tylko zadania do wykonania – przy pytaniach, rozmowie i drobnych poprawkach odpowiada bez planu.
