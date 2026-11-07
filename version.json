@@ -1,8 +1,8 @@
 {
-  "versionCode": 38,
-  "versionName": "0.1.38",
-  "changes": "Przycisk „Aktualizuj” najpierw sprawdza, czy nie ma jeszcze nowszej wersji, i pobiera najnowszą (wcześniej baner mógł wskazywać starszą wersję, której pliku już nie było).",
-  "apk": "andrut-0.1.38.apk",
-  "sha256": "8504cb3bec63435398dffa62403a1702c251640227ebf56ca003151c277ab370",
-  "size": 21954561
+  "versionCode": 39,
+  "versionName": "0.1.39",
+  "changes": "Menu projektu: „Instrukcja modelu” – podgląd i edycja instrukcji systemowej osobno dla projektu. „Czat: streszczenia i statystyki” – liczby wiadomości, narzędzi i tokenów, lista streszczeń oraz „Usuń cały czat” (świat i dane zostają).",
+  "apk": "andrut-0.1.39.apk",
+  "sha256": "d8e3113e90dba00514144295e20d81cd8eb53017ee74e62df7c453d7c57e0532",
+  "size": 21961313
 }

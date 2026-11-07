@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.39 – 2026-11-07
+
+Menu projektu: „Instrukcja modelu” – podgląd i edycja instrukcji systemowej osobno dla projektu. „Czat: streszczenia i statystyki” – liczby wiadomości, narzędzi i tokenów, lista streszczeń oraz „Usuń cały czat” (świat i dane zostają).
+
 ## 0.1.38 – 2026-11-07
 
 Przycisk „Aktualizuj” najpierw sprawdza, czy nie ma jeszcze nowszej wersji, i pobiera najnowszą (wcześniej baner mógł wskazywać starszą wersję, której pliku już nie było).
