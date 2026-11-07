@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.35 – 2026-11-07
+
+Nowa opcja projektu „Praca etapami”: AI pokazuje plan do akceptacji, realizuje go punkt po punkcie, oznacza gotowe tylko po sprawdzeniu (z opisem testu), jest ponaglane przy niedokończonym planie i kończy raportem.
+
 ## 0.1.34 – 2026-11-07
 
 W czacie widać, jakie pliki model czyta (oraz konsolę, ogląd świata i dane świata) – z wynikiem do rozwinięcia.

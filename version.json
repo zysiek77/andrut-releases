@@ -1,8 +1,8 @@
 {
-  "versionCode": 34,
-  "versionName": "0.1.34",
-  "changes": "W czacie widać, jakie pliki model czyta (oraz konsolę, ogląd świata i dane świata) – z wynikiem do rozwinięcia.",
-  "apk": "andrut-0.1.34.apk",
-  "sha256": "696fcc294bdb68d9a8a548c63ff6c5207da80a6ebc8bfbf5daadad9927e8bcc2",
-  "size": 21943293
+  "versionCode": 35,
+  "versionName": "0.1.35",
+  "changes": "Nowa opcja projektu „Praca etapami”: AI pokazuje plan do akceptacji, realizuje go punkt po punkcie, oznacza gotowe tylko po sprawdzeniu (z opisem testu), jest ponaglane przy niedokończonym planie i kończy raportem.",
+  "apk": "andrut-0.1.35.apk",
+  "sha256": "2e85ed9087974c835f15eebd289bc23d8201610e3ee52e4be409dcb83d3330dc",
+  "size": 21953473
 }
