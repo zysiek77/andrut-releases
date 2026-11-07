@@ -1,8 +1,8 @@
 {
-  "versionCode": 32,
-  "versionName": "0.1.32",
-  "changes": "Konsola po przeładowaniu świata pokazuje tylko nowe wpisy (starsze pod „Pokaż wcześniejsze”), także dla AI. W czacie widać kod i wynik run_js oraz parametry i wyniki pozostałych narzędzi sprawdzających.",
-  "apk": "andrut-0.1.32.apk",
-  "sha256": "bec16cd76b71bfc36a851acf3bad4134efa9cf14be4005b88daec7c716a30fa8",
-  "size": 21939377
+  "versionCode": 33,
+  "versionName": "0.1.33",
+  "changes": "Zrzuty świata 3D nie są już czarne (dla Ciebie i dla AI). Przy przerwanej transmisji Andrut nie wykonuje żadnego narzędzia z urwanej odpowiedzi. Dziennik zapisuje, czym kończy się każda odpowiedź modelu.",
+  "apk": "andrut-0.1.33.apk",
+  "sha256": "6001d99f0e8bc7926ed5ec8fd5337cbc571a845e292330ea9a28b8fe332c5e8c",
+  "size": 21942537
 }

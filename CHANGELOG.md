@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.33 – 2026-11-07
+
+Zrzuty świata 3D nie są już czarne (dla Ciebie i dla AI). Przy przerwanej transmisji Andrut nie wykonuje żadnego narzędzia z urwanej odpowiedzi. Dziennik zapisuje, czym kończy się każda odpowiedź modelu.
+
 ## 0.1.32 – 2026-11-06
 
 Konsola po przeładowaniu świata pokazuje tylko nowe wpisy (starsze pod „Pokaż wcześniejsze”), także dla AI. W czacie widać kod i wynik run_js oraz parametry i wyniki pozostałych narzędzi sprawdzających.
