@@ -3,7 +3,7 @@
 Andrut to demo aplikacji na Androida (telefon i tablet), w której razem z AI budujesz „światy” –
 małe aplikacje tworzone i zmieniane na bieżąco w czacie lub głosem.
 
-**Najnowsza wersja: 0.1.39** – [pobierz andrut.apk](https://github.com/zysiek77/andrut-releases/raw/main/andrut.apk)
+**Najnowsza wersja: 0.1.40** – [pobierz andrut.apk](https://github.com/zysiek77/andrut-releases/raw/main/andrut.apk)
 
 ## Pierwsza instalacja
 1. Otwórz link do `andrut.apk` na telefonie lub tablecie i pobierz plik.
@@ -17,6 +17,10 @@ o zgodę „Instaluj nieznane aplikacje” dla Andruta. Każda wersja jest podpi
 więc instaluje się jako aktualizacja – bez utraty danych.
 
 ## Historia zmian
+## 0.1.40 – 2026-11-07
+
+Naprawa równoległej pracy AI: „Zatrzymaj” i „zacznij od tej wiadomości” czekają, aż poprzednia praca naprawdę się skończy – nie ruszają dwie AI naraz. Po wykorzystaniu limitu 25 kroków AI pisze podsumowanie (co zrobiło, co zostało), a pod nim jest przycisk „Kontynuuj”. Wpisy w dzienniku: start i koniec każdej pracy AI z powodem.
+
 ## 0.1.39 – 2026-11-07
 
 Menu projektu: „Instrukcja modelu” – podgląd i edycja instrukcji systemowej osobno dla projektu. „Czat: streszczenia i statystyki” – liczby wiadomości, narzędzi i tokenów, lista streszczeń oraz „Usuń cały czat” (świat i dane zostają).

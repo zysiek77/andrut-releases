@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.40 – 2026-11-07
+
+Naprawa równoległej pracy AI: „Zatrzymaj” i „zacznij od tej wiadomości” czekają, aż poprzednia praca naprawdę się skończy – nie ruszają dwie AI naraz. Po wykorzystaniu limitu 25 kroków AI pisze podsumowanie (co zrobiło, co zostało), a pod nim jest przycisk „Kontynuuj”. Wpisy w dzienniku: start i koniec każdej pracy AI z powodem.
+
 ## 0.1.39 – 2026-11-07
 
 Menu projektu: „Instrukcja modelu” – podgląd i edycja instrukcji systemowej osobno dla projektu. „Czat: streszczenia i statystyki” – liczby wiadomości, narzędzi i tokenów, lista streszczeń oraz „Usuń cały czat” (świat i dane zostają).

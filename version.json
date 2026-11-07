@@ -1,8 +1,8 @@
 {
-  "versionCode": 39,
-  "versionName": "0.1.39",
-  "changes": "Menu projektu: „Instrukcja modelu” – podgląd i edycja instrukcji systemowej osobno dla projektu. „Czat: streszczenia i statystyki” – liczby wiadomości, narzędzi i tokenów, lista streszczeń oraz „Usuń cały czat” (świat i dane zostają).",
-  "apk": "andrut-0.1.39.apk",
-  "sha256": "d8e3113e90dba00514144295e20d81cd8eb53017ee74e62df7c453d7c57e0532",
-  "size": 21961313
+  "versionCode": 40,
+  "versionName": "0.1.40",
+  "changes": "Naprawa równoległej pracy AI: „Zatrzymaj” i „zacznij od tej wiadomości” czekają, aż poprzednia praca naprawdę się skończy – nie ruszają dwie AI naraz. Po wykorzystaniu limitu 25 kroków AI pisze podsumowanie (co zrobiło, co zostało), a pod nim jest przycisk „Kontynuuj”. Wpisy w dzienniku: start i koniec każdej pracy AI z powodem.",
+  "apk": "andrut-0.1.40.apk",
+  "sha256": "c6103642b34a737ef0117f0b5332344b0a5a97443988b04151068018ceddc2af",
+  "size": 21964025
 }
