@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.51 – 2026-11-08
+
+Gry z ekranem startowym: check_world wypisuje przyciski, ostrzega o zasłoniętych i o nakładce „Start” nad grą; interact_world nie klika zasłoniętego przycisku, tylko zgłasza błąd; AI ma uruchamiać scenę od razu, a Start tylko włącza rozgrywkę. Skill three.js zaktualizowany.
+
 ## 0.1.50 – 2026-11-08
 
 Gdy AI pracuje, a Ty wyjdziesz z projektu (pliki, konsola, lista, ustawienia), świat działa dalej w tle – sprawdzanie świata przez AI nie przerywa się. AI dostaje prawdziwą przyczynę, gdy podglądu nie ma. Pomiar sceny 3D łapie pierwszą klatkę z treścią.

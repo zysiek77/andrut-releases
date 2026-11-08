@@ -1,8 +1,8 @@
 {
-  "versionCode": 50,
-  "versionName": "0.1.50",
-  "changes": "Gdy AI pracuje, a Ty wyjdziesz z projektu (pliki, konsola, lista, ustawienia), świat działa dalej w tle – sprawdzanie świata przez AI nie przerywa się. AI dostaje prawdziwą przyczynę, gdy podglądu nie ma. Pomiar sceny 3D łapie pierwszą klatkę z treścią.",
-  "apk": "andrut-0.1.50.apk",
-  "sha256": "c8cf3f70be4dd0dc461cc30e69ce572a34b681798599659cd0094b45c2cfa240",
-  "size": 22035660
+  "versionCode": 51,
+  "versionName": "0.1.51",
+  "changes": "Gry z ekranem startowym: check_world wypisuje przyciski, ostrzega o zasłoniętych i o nakładce „Start” nad grą; interact_world nie klika zasłoniętego przycisku, tylko zgłasza błąd; AI ma uruchamiać scenę od razu, a Start tylko włącza rozgrywkę. Skill three.js zaktualizowany.",
+  "apk": "andrut-0.1.51.apk",
+  "sha256": "5cee9eaaf9707eacd70ae326e5d609976a352239f736cdab56e2ec13f1e4b040",
+  "size": 22038168
 }
