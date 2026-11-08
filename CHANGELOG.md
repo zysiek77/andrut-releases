@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.49 – 2026-11-08
+
+Skille: w Ustawieniach aplikacji nowy ekran Skille – instrukcje dla AI do konkretnych zadań (format Anthropic): tworzenie, edycja, włącz/wyłącz, import i eksport ZIP. W projekcie: ⋮ → Skille w projekcie. AI widzi listę i wczytuje skill, gdy zadanie pasuje. Na start 5 skilli: three.js 3D, gry 2D, wzorce UI, dane i wykresy, dźwięk i wibracje.
+
 ## 0.1.48 – 2026-11-08
 
 AGENTS.md: gdy praca już trwa (są pliki albo plan), a pliku brak – AI dostaje polecenie, by utworzyć go od razu; w trybie etapami plan jest też zapisywany w AGENTS.md. Koniec fałszywego błędu favicon.ico w konsoli i kontroli świata.
