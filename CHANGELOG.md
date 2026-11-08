@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.43 – 2026-11-08
+
+AGENTS.md: AI tworzy go dopiero po pierwszych konkretnych ustaleniach z Tobą (cel, pomysły, plan – także na etapie projektowania), a nie z samej nazwy projektu przy powitaniu.
+
 ## 0.1.42 – 2026-11-08
 
 Język rozmowy z AI: przy tworzeniu projektu i w ustawieniach projektu wybierasz polski albo angielski. W wybranym języku AI dostaje instrukcję, kontekst, opisy i wyniki narzędzi oraz komunikaty aplikacji, odpowiada i pisze AGENTS.md. Pomaga modelom, które słabo znają polski. Aplikacja zostaje po polsku.
