@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.44 – 2026-11-08
+
+Edycja plików przez AI: gdy fragment różni się tylko odstępami, zmiana się wykonuje; gdy nie pasuje, model dostaje numer linii i fragment pliku do skopiowania; powtórzone identyczne nieudane wywołanie jest wprost oznaczane.
+
 ## 0.1.43 – 2026-11-08
 
 AGENTS.md: AI tworzy go dopiero po pierwszych konkretnych ustaleniach z Tobą (cel, pomysły, plan – także na etapie projektowania), a nie z samej nazwy projektu przy powitaniu.

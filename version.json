@@ -1,8 +1,8 @@
 {
-  "versionCode": 43,
-  "versionName": "0.1.43",
-  "changes": "AGENTS.md: AI tworzy go dopiero po pierwszych konkretnych ustaleniach z Tobą (cel, pomysły, plan – także na etapie projektowania), a nie z samej nazwy projektu przy powitaniu.",
-  "apk": "andrut-0.1.43.apk",
-  "sha256": "c1b42b4c8047ad4d39789cab5d09a67350e44ae54cadbcd3d3c1c915dd276c0b",
-  "size": 21983649
+  "versionCode": 44,
+  "versionName": "0.1.44",
+  "changes": "Edycja plików przez AI: gdy fragment różni się tylko odstępami, zmiana się wykonuje; gdy nie pasuje, model dostaje numer linii i fragment pliku do skopiowania; powtórzone identyczne nieudane wywołanie jest wprost oznaczane.",
+  "apk": "andrut-0.1.44.apk",
+  "sha256": "fece6671c77aa1207971f3e6177a4a8c3cbd9e4f325010eff9ccf796513c62e2",
+  "size": 21985229
 }
