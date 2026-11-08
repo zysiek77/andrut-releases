@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.53 – 2026-11-08
+
+Pliki dla AI: w czacie 📎 „Plik” (PDF, DOCX, XLSX, PPTX, ODT, TXT…) – telefon zamienia go na tekst albo obrazy. Załączniki w skillach (dodawanie, podgląd, usuwanie); AI czyta je i może kopiować do świata. „Dodaj plik z telefonu” w plikach świata. Automatyczna naprawa błędów JS – teraz przełącznik w ustawieniach projektu, domyślnie wyłączony.
+
 ## 0.1.52 – 2026-11-08
 
 AI może testować joysticki i gesty: interact_world umie przeciągać palcem (od elementu albo między punktami, z przytrzymaniem) i dwa palce naraz; pokazuje stan gry przed i po, ostrzega, gdy sterowanie nic nie zmieniło.

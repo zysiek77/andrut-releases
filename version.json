@@ -1,8 +1,8 @@
 {
-  "versionCode": 52,
-  "versionName": "0.1.52",
-  "changes": "AI może testować joysticki i gesty: interact_world umie przeciągać palcem (od elementu albo między punktami, z przytrzymaniem) i dwa palce naraz; pokazuje stan gry przed i po, ostrzega, gdy sterowanie nic nie zmieniło.",
-  "apk": "andrut-0.1.52.apk",
-  "sha256": "ceb86e31abbe63df875f0441f8336ad3fa5dac4f903f2f3e280fb77be66f19a6",
-  "size": 22039876
+  "versionCode": 53,
+  "versionName": "0.1.53",
+  "changes": "Pliki dla AI: w czacie 📎 „Plik” (PDF, DOCX, XLSX, PPTX, ODT, TXT…) – telefon zamienia go na tekst albo obrazy. Załączniki w skillach (dodawanie, podgląd, usuwanie); AI czyta je i może kopiować do świata. „Dodaj plik z telefonu” w plikach świata. Automatyczna naprawa błędów JS – teraz przełącznik w ustawieniach projektu, domyślnie wyłączony.",
+  "apk": "andrut-0.1.53.apk",
+  "sha256": "0b8935cfead044d484a61c1fe50c95e8f025f416c0012170f36b20a2a186223f",
+  "size": 28511232
 }
