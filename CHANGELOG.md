@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.52 – 2026-11-08
+
+AI może testować joysticki i gesty: interact_world umie przeciągać palcem (od elementu albo między punktami, z przytrzymaniem) i dwa palce naraz; pokazuje stan gry przed i po, ostrzega, gdy sterowanie nic nie zmieniło.
+
 ## 0.1.51 – 2026-11-08
 
 Gry z ekranem startowym: check_world wypisuje przyciski, ostrzega o zasłoniętych i o nakładce „Start” nad grą; interact_world nie klika zasłoniętego przycisku, tylko zgłasza błąd; AI ma uruchamiać scenę od razu, a Start tylko włącza rozgrywkę. Skill three.js zaktualizowany.

@@ -1,8 +1,8 @@
 {
-  "versionCode": 51,
-  "versionName": "0.1.51",
-  "changes": "Gry z ekranem startowym: check_world wypisuje przyciski, ostrzega o zasłoniętych i o nakładce „Start” nad grą; interact_world nie klika zasłoniętego przycisku, tylko zgłasza błąd; AI ma uruchamiać scenę od razu, a Start tylko włącza rozgrywkę. Skill three.js zaktualizowany.",
-  "apk": "andrut-0.1.51.apk",
-  "sha256": "5cee9eaaf9707eacd70ae326e5d609976a352239f736cdab56e2ec13f1e4b040",
-  "size": 22038168
+  "versionCode": 52,
+  "versionName": "0.1.52",
+  "changes": "AI może testować joysticki i gesty: interact_world umie przeciągać palcem (od elementu albo między punktami, z przytrzymaniem) i dwa palce naraz; pokazuje stan gry przed i po, ostrzega, gdy sterowanie nic nie zmieniło.",
+  "apk": "andrut-0.1.52.apk",
+  "sha256": "ceb86e31abbe63df875f0441f8336ad3fa5dac4f903f2f3e280fb77be66f19a6",
+  "size": 22039876
 }
