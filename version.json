@@ -1,8 +1,8 @@
 {
-  "versionCode": 59,
-  "versionName": "0.1.59",
-  "changes": "Nowi dostawcy: Groq (groq.com – to nie Grok) i LLM7 (llm7.io – darmowe modele bez tokena, np. gpt-oss:20b). Lista modeli z ikonkami (🖼 obrazy, 🧠 myślenie, 📄 PDF, 🎤 audio, 🎬 wideo, 🆓 darmowy, 🔑 wymaga tokena), kontekstem i ceną; filtry „darmowe / z obrazami / z myśleniem” i sortowanie; z OpenRoutera, LLM7 i Groq tylko modele czatu z narzędziami. Claude przez OpenRouter korzysta teraz z cache promptu (dużo taniej przy długich czatach); czas cache 1 godz. (domyślnie) lub 5 min w ustawieniach. Koszt w ℹ️ dla wszystkich dostawców – z OpenRoutera rzeczywisty. Jasne komunikaty: model bez narzędzi, płatny model LLM7 bez tokena, limit darmowego planu Groq, czas do odnowienia limitu.",
-  "apk": "andrut-0.1.59.apk",
-  "sha256": "442ac35834cd02d09488b65493ae29fd89780cc393407ef633e9b8dd923aa3df",
-  "size": 28526432
+  "versionCode": 63,
+  "versionName": "0.1.63",
+  "changes": "Model AI projektu: w ustawieniach projektu i na dole okna nowego projektu wybierasz „Domyślny środowiska” albo „Inny model” – dostawcę z rozwijanej listy (z kluczem w środowisku oraz LLM7 bez tokena) i model z listy. Nowy projekt od razu wita się wybranym modelem.",
+  "apk": "andrut-0.1.63.apk",
+  "sha256": "6876010d961d0afade2f73d5b2d5daa9c3d8d51bb34d94457451a35271024a94",
+  "size": 28530964
 }

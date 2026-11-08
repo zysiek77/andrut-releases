@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.63 – 2026-11-08
+
+Model AI projektu: w ustawieniach projektu i na dole okna nowego projektu wybierasz „Domyślny środowiska” albo „Inny model” – dostawcę z rozwijanej listy (z kluczem w środowisku oraz LLM7 bez tokena) i model z listy. Nowy projekt od razu wita się wybranym modelem.
+
 ## 0.1.59 – 2026-11-08
 
 Nowi dostawcy: Groq (groq.com – to nie Grok) i LLM7 (llm7.io – darmowe modele bez tokena, np. gpt-oss:20b). Lista modeli z ikonkami (🖼 obrazy, 🧠 myślenie, 📄 PDF, 🎤 audio, 🎬 wideo, 🆓 darmowy, 🔑 wymaga tokena), kontekstem i ceną; filtry „darmowe / z obrazami / z myśleniem” i sortowanie; z OpenRoutera, LLM7 i Groq tylko modele czatu z narzędziami. Claude przez OpenRouter korzysta teraz z cache promptu (dużo taniej przy długich czatach); czas cache 1 godz. (domyślnie) lub 5 min w ustawieniach. Koszt w ℹ️ dla wszystkich dostawców – z OpenRoutera rzeczywisty. Jasne komunikaty: model bez narzędzi, płatny model LLM7 bez tokena, limit darmowego planu Groq, czas do odnowienia limitu.
