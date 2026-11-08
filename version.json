@@ -1,8 +1,8 @@
 {
-  "versionCode": 46,
-  "versionName": "0.1.46",
-  "changes": "Obrazy: jednorazowe odrzucenie obrazu przez dostawcę (np. „media could not be screened”) nie wyłącza już obrazów dla modelu na stałe; modele, które według OpenRoutera przyjmują obrazy, zawsze je dostają; w ustawieniach projektu przycisk „Przywróć obrazy”.",
-  "apk": "andrut-0.1.46.apk",
-  "sha256": "80cf282f8dda9d657ae4f5add3e271f14f5c4632eabae007bea5b10d666d9e4a",
-  "size": 22008045
+  "versionCode": 47,
+  "versionName": "0.1.47",
+  "changes": "3D: kontrola świata mierzy jasność i kontrast sceny (wykrywa prawie niewidoczną scenę), w instrukcji wskazówki do three.js (światła r155+, kontrast, kamera), nowa opcja projektu „Zrzuty ekranu bez pytania”.",
+  "apk": "andrut-0.1.47.apk",
+  "sha256": "98ae521cdb84a0b3080c26cb5ffe236d4073f9fd94c2badb3e714b3a2568958a",
+  "size": 22010805
 }

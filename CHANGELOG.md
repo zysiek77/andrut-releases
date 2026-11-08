@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.47 – 2026-11-08
+
+3D: kontrola świata mierzy jasność i kontrast sceny (wykrywa prawie niewidoczną scenę), w instrukcji wskazówki do three.js (światła r155+, kontrast, kamera), nowa opcja projektu „Zrzuty ekranu bez pytania”.
+
 ## 0.1.46 – 2026-11-08
 
 Obrazy: jednorazowe odrzucenie obrazu przez dostawcę (np. „media could not be screened”) nie wyłącza już obrazów dla modelu na stałe; modele, które według OpenRoutera przyjmują obrazy, zawsze je dostają; w ustawieniach projektu przycisk „Przywróć obrazy”.
