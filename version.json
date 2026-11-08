@@ -1,8 +1,8 @@
 {
-  "versionCode": 44,
-  "versionName": "0.1.44",
-  "changes": "Edycja plików przez AI: gdy fragment różni się tylko odstępami, zmiana się wykonuje; gdy nie pasuje, model dostaje numer linii i fragment pliku do skopiowania; powtórzone identyczne nieudane wywołanie jest wprost oznaczane.",
-  "apk": "andrut-0.1.44.apk",
-  "sha256": "fece6671c77aa1207971f3e6177a4a8c3cbd9e4f325010eff9ccf796513c62e2",
-  "size": 21985229
+  "versionCode": 45,
+  "versionName": "0.1.45",
+  "changes": "Usuwanie plików świata (wybór: pliki strony, AGENTS.md, dane; z cofaniem). AI robi okna, komunikaty i listy wyboru jako elementy strony zamiast systemowych okienek (gotowe klasy w motywie, kontrola w check_world). Kolejność projektów: przytrzymaj i przeciągnij kartę, do tego sortowanie.",
+  "apk": "andrut-0.1.45.apk",
+  "sha256": "1df1d41232d8f7adfce045100bee0a789989712c1fec9d59f7a7c53b3db21a1f",
+  "size": 22006913
 }

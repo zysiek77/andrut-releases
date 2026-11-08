@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.45 – 2026-11-08
+
+Usuwanie plików świata (wybór: pliki strony, AGENTS.md, dane; z cofaniem). AI robi okna, komunikaty i listy wyboru jako elementy strony zamiast systemowych okienek (gotowe klasy w motywie, kontrola w check_world). Kolejność projektów: przytrzymaj i przeciągnij kartę, do tego sortowanie.
+
 ## 0.1.44 – 2026-11-08
 
 Edycja plików przez AI: gdy fragment różni się tylko odstępami, zmiana się wykonuje; gdy nie pasuje, model dostaje numer linii i fragment pliku do skopiowania; powtórzone identyczne nieudane wywołanie jest wprost oznaczane.
