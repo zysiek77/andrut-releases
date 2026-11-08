@@ -1,8 +1,8 @@
 {
-  "versionCode": 47,
-  "versionName": "0.1.47",
-  "changes": "3D: kontrola świata mierzy jasność i kontrast sceny (wykrywa prawie niewidoczną scenę), w instrukcji wskazówki do three.js (światła r155+, kontrast, kamera), nowa opcja projektu „Zrzuty ekranu bez pytania”.",
-  "apk": "andrut-0.1.47.apk",
-  "sha256": "98ae521cdb84a0b3080c26cb5ffe236d4073f9fd94c2badb3e714b3a2568958a",
-  "size": 22010805
+  "versionCode": 48,
+  "versionName": "0.1.48",
+  "changes": "AGENTS.md: gdy praca już trwa (są pliki albo plan), a pliku brak – AI dostaje polecenie, by utworzyć go od razu; w trybie etapami plan jest też zapisywany w AGENTS.md. Koniec fałszywego błędu favicon.ico w konsoli i kontroli świata.",
+  "apk": "andrut-0.1.48.apk",
+  "sha256": "a7730b80bada051da323249ad56b961075791d4710a376d2ad6b5f7abc81a005",
+  "size": 22011349
 }

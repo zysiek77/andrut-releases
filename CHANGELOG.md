@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.48 – 2026-11-08
+
+AGENTS.md: gdy praca już trwa (są pliki albo plan), a pliku brak – AI dostaje polecenie, by utworzyć go od razu; w trybie etapami plan jest też zapisywany w AGENTS.md. Koniec fałszywego błędu favicon.ico w konsoli i kontroli świata.
+
 ## 0.1.47 – 2026-11-08
 
 3D: kontrola świata mierzy jasność i kontrast sceny (wykrywa prawie niewidoczną scenę), w instrukcji wskazówki do three.js (światła r155+, kontrast, kamera), nowa opcja projektu „Zrzuty ekranu bez pytania”.
