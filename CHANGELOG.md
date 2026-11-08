@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.46 – 2026-11-08
+
+Obrazy: jednorazowe odrzucenie obrazu przez dostawcę (np. „media could not be screened”) nie wyłącza już obrazów dla modelu na stałe; modele, które według OpenRoutera przyjmują obrazy, zawsze je dostają; w ustawieniach projektu przycisk „Przywróć obrazy”.
+
 ## 0.1.45 – 2026-11-08
 
 Usuwanie plików świata (wybór: pliki strony, AGENTS.md, dane; z cofaniem). AI robi okna, komunikaty i listy wyboru jako elementy strony zamiast systemowych okienek (gotowe klasy w motywie, kontrola w check_world). Kolejność projektów: przytrzymaj i przeciągnij kartę, do tego sortowanie.

@@ -1,8 +1,8 @@
 {
-  "versionCode": 45,
-  "versionName": "0.1.45",
-  "changes": "Usuwanie plików świata (wybór: pliki strony, AGENTS.md, dane; z cofaniem). AI robi okna, komunikaty i listy wyboru jako elementy strony zamiast systemowych okienek (gotowe klasy w motywie, kontrola w check_world). Kolejność projektów: przytrzymaj i przeciągnij kartę, do tego sortowanie.",
-  "apk": "andrut-0.1.45.apk",
-  "sha256": "1df1d41232d8f7adfce045100bee0a789989712c1fec9d59f7a7c53b3db21a1f",
-  "size": 22006913
+  "versionCode": 46,
+  "versionName": "0.1.46",
+  "changes": "Obrazy: jednorazowe odrzucenie obrazu przez dostawcę (np. „media could not be screened”) nie wyłącza już obrazów dla modelu na stałe; modele, które według OpenRoutera przyjmują obrazy, zawsze je dostają; w ustawieniach projektu przycisk „Przywróć obrazy”.",
+  "apk": "andrut-0.1.46.apk",
+  "sha256": "80cf282f8dda9d657ae4f5add3e271f14f5c4632eabae007bea5b10d666d9e4a",
+  "size": 22008045
 }
