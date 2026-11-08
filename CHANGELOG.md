@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.59 – 2026-11-08
+
+Nowi dostawcy: Groq (groq.com – to nie Grok) i LLM7 (llm7.io – darmowe modele bez tokena, np. gpt-oss:20b). Lista modeli z ikonkami (🖼 obrazy, 🧠 myślenie, 📄 PDF, 🎤 audio, 🎬 wideo, 🆓 darmowy, 🔑 wymaga tokena), kontekstem i ceną; filtry „darmowe / z obrazami / z myśleniem” i sortowanie; z OpenRoutera, LLM7 i Groq tylko modele czatu z narzędziami. Claude przez OpenRouter korzysta teraz z cache promptu (dużo taniej przy długich czatach); czas cache 1 godz. (domyślnie) lub 5 min w ustawieniach. Koszt w ℹ️ dla wszystkich dostawców – z OpenRoutera rzeczywisty. Jasne komunikaty: model bez narzędzi, płatny model LLM7 bez tokena, limit darmowego planu Groq, czas do odnowienia limitu.
+
 ## 0.1.53 – 2026-11-08
 
 Pliki dla AI: w czacie 📎 „Plik” (PDF, DOCX, XLSX, PPTX, ODT, TXT…) – telefon zamienia go na tekst albo obrazy. Załączniki w skillach (dodawanie, podgląd, usuwanie); AI czyta je i może kopiować do świata. „Dodaj plik z telefonu” w plikach świata. Automatyczna naprawa błędów JS – teraz przełącznik w ustawieniach projektu, domyślnie wyłączony.
