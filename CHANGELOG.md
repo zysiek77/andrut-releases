@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.42 – 2026-11-08
+
+Język rozmowy z AI: przy tworzeniu projektu i w ustawieniach projektu wybierasz polski albo angielski. W wybranym języku AI dostaje instrukcję, kontekst, opisy i wyniki narzędzi oraz komunikaty aplikacji, odpowiada i pisze AGENTS.md. Pomaga modelom, które słabo znają polski. Aplikacja zostaje po polsku.
+
 ## 0.1.41 – 2026-11-08
 
 Przycisk „Kontynuuj” pod komunikatem błędu, gdy praca AI przerwie się przez zerwany internet lub błąd dostawcy – wznawia od miejsca przerwania. W dzienniku zapis powrotu do wcześniejszej wiadomości (ile usunięto, czy cofnięto świat, czy AI pracowało).
