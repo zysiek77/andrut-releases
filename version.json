@@ -1,8 +1,8 @@
 {
-  "versionCode": 40,
-  "versionName": "0.1.40",
-  "changes": "Naprawa równoległej pracy AI: „Zatrzymaj” i „zacznij od tej wiadomości” czekają, aż poprzednia praca naprawdę się skończy – nie ruszają dwie AI naraz. Po wykorzystaniu limitu 25 kroków AI pisze podsumowanie (co zrobiło, co zostało), a pod nim jest przycisk „Kontynuuj”. Wpisy w dzienniku: start i koniec każdej pracy AI z powodem.",
-  "apk": "andrut-0.1.40.apk",
-  "sha256": "c6103642b34a737ef0117f0b5332344b0a5a97443988b04151068018ceddc2af",
-  "size": 21964025
+  "versionCode": 41,
+  "versionName": "0.1.41",
+  "changes": "Przycisk „Kontynuuj” pod komunikatem błędu, gdy praca AI przerwie się przez zerwany internet lub błąd dostawcy – wznawia od miejsca przerwania. W dzienniku zapis powrotu do wcześniejszej wiadomości (ile usunięto, czy cofnięto świat, czy AI pracowało).",
+  "apk": "andrut-0.1.41.apk",
+  "sha256": "60f1fa7aca340b5e3c060da1fc836eae700cbd2ea179fd45b825c2b4b38ad7f0",
+  "size": 21965993
 }

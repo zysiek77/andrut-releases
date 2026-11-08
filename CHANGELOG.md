@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.41 – 2026-11-08
+
+Przycisk „Kontynuuj” pod komunikatem błędu, gdy praca AI przerwie się przez zerwany internet lub błąd dostawcy – wznawia od miejsca przerwania. W dzienniku zapis powrotu do wcześniejszej wiadomości (ile usunięto, czy cofnięto świat, czy AI pracowało).
+
 ## 0.1.40 – 2026-11-07
 
 Naprawa równoległej pracy AI: „Zatrzymaj” i „zacznij od tej wiadomości” czekają, aż poprzednia praca naprawdę się skończy – nie ruszają dwie AI naraz. Po wykorzystaniu limitu 25 kroków AI pisze podsumowanie (co zrobiło, co zostało), a pod nim jest przycisk „Kontynuuj”. Wpisy w dzienniku: start i koniec każdej pracy AI z powodem.
