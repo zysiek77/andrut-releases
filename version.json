@@ -1,8 +1,8 @@
 {
-  "versionCode": 49,
-  "versionName": "0.1.49",
-  "changes": "Skille: w Ustawieniach aplikacji nowy ekran Skille – instrukcje dla AI do konkretnych zadań (format Anthropic): tworzenie, edycja, włącz/wyłącz, import i eksport ZIP. W projekcie: ⋮ → Skille w projekcie. AI widzi listę i wczytuje skill, gdy zadanie pasuje. Na start 5 skilli: three.js 3D, gry 2D, wzorce UI, dane i wykresy, dźwięk i wibracje.",
-  "apk": "andrut-0.1.49.apk",
-  "sha256": "b46e2e33cf68a3aa22fb507f6d894981fddc6cbbc8aed8df0cd1e7049126bfb9",
-  "size": 22034208
+  "versionCode": 50,
+  "versionName": "0.1.50",
+  "changes": "Gdy AI pracuje, a Ty wyjdziesz z projektu (pliki, konsola, lista, ustawienia), świat działa dalej w tle – sprawdzanie świata przez AI nie przerywa się. AI dostaje prawdziwą przyczynę, gdy podglądu nie ma. Pomiar sceny 3D łapie pierwszą klatkę z treścią.",
+  "apk": "andrut-0.1.50.apk",
+  "sha256": "c8cf3f70be4dd0dc461cc30e69ce572a34b681798599659cd0094b45c2cfa240",
+  "size": 22035660
 }

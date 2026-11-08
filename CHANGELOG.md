@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.50 – 2026-11-08
+
+Gdy AI pracuje, a Ty wyjdziesz z projektu (pliki, konsola, lista, ustawienia), świat działa dalej w tle – sprawdzanie świata przez AI nie przerywa się. AI dostaje prawdziwą przyczynę, gdy podglądu nie ma. Pomiar sceny 3D łapie pierwszą klatkę z treścią.
+
 ## 0.1.49 – 2026-11-08
 
 Skille: w Ustawieniach aplikacji nowy ekran Skille – instrukcje dla AI do konkretnych zadań (format Anthropic): tworzenie, edycja, włącz/wyłącz, import i eksport ZIP. W projekcie: ⋮ → Skille w projekcie. AI widzi listę i wczytuje skill, gdy zadanie pasuje. Na start 5 skilli: three.js 3D, gry 2D, wzorce UI, dane i wykresy, dźwięk i wibracje.
