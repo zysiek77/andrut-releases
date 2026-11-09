@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.75 – 2026-11-09
+
+Instrukcja modelu w rozdziałach i bez powtórzeń (krótsza o ok. 45%), nowy fragment „Wygląd i dopasowanie do okna” (domyślnie włączony); opis projektu pisze użytkownik (pole przy tworzeniu, edycja w ℹ️), AI nie nadpisuje go już narzędziem; zapis pliku ucięty limitem długości – ponowienie z większym limitem i prawdziwa przyczyna zamiast „Brak parametru path”, nowe narzędzie append_file do pisania dużych plików częściami; „Wyczyść dziennik” obok eksportu; w ℹ️ sekcja „Kontekst aplikacji” – co AI dostaje z każdą wiadomością; ikona ⟳ „Odśwież świat” w konsoli błędów z paskiem wyniku.
+
 ## 0.1.67 – 2026-11-09
 
 Przycinaj starą historię dla AI (przełącznik w ustawieniach projektu, domyślnie wyłączony): w długich sesjach mniej tokenów – stare treści plików, długie wyniki testów, stare konteksty i zrzuty nie są wysyłane ponownie. Instrukcja modelu krótsza: wskazówki ze skilli mobile-ui-patterns, canvas-2d-game i threejs-3d włączasz przełącznikami w oknie Instrukcja modelu (nowe projekty – wyłączone, istniejące – bez zmian). „Wyślij do AI” w konsoli pisze w języku projektu, a w czacie zostaje rozwijany komentarz systemowy; wszystkie komentarze systemowe pokazują po rozwinięciu, co wysłano do AI.

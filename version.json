@@ -1,8 +1,8 @@
 {
-  "versionCode": 67,
-  "versionName": "0.1.67",
-  "changes": "Przycinaj starą historię dla AI (przełącznik w ustawieniach projektu, domyślnie wyłączony): w długich sesjach mniej tokenów – stare treści plików, długie wyniki testów, stare konteksty i zrzuty nie są wysyłane ponownie. Instrukcja modelu krótsza: wskazówki ze skilli mobile-ui-patterns, canvas-2d-game i threejs-3d włączasz przełącznikami w oknie Instrukcja modelu (nowe projekty – wyłączone, istniejące – bez zmian). „Wyślij do AI” w konsoli pisze w języku projektu, a w czacie zostaje rozwijany komentarz systemowy; wszystkie komentarze systemowe pokazują po rozwinięciu, co wysłano do AI.",
-  "apk": "andrut-0.1.67.apk",
-  "sha256": "16f22e2778d3d03e5bde762df4e98d5fd09c901f4139487e505a53aaac9825f8",
-  "size": 28537816
+  "versionCode": 75,
+  "versionName": "0.1.75",
+  "changes": "Instrukcja modelu w rozdziałach i bez powtórzeń (krótsza o ok. 45%), nowy fragment „Wygląd i dopasowanie do okna” (domyślnie włączony); opis projektu pisze użytkownik (pole przy tworzeniu, edycja w ℹ️), AI nie nadpisuje go już narzędziem; zapis pliku ucięty limitem długości – ponowienie z większym limitem i prawdziwa przyczyna zamiast „Brak parametru path”, nowe narzędzie append_file do pisania dużych plików częściami; „Wyczyść dziennik” obok eksportu; w ℹ️ sekcja „Kontekst aplikacji” – co AI dostaje z każdą wiadomością; ikona ⟳ „Odśwież świat” w konsoli błędów z paskiem wyniku.",
+  "apk": "andrut-0.1.75.apk",
+  "sha256": "d3aa0d5dc6aa43cfa7e79a7513f12b0e760cd700cd7f74818ccbb4059f6fbd55",
+  "size": 28544760
 }
