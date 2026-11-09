@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.67 – 2026-11-09
+
+Przycinaj starą historię dla AI (przełącznik w ustawieniach projektu, domyślnie wyłączony): w długich sesjach mniej tokenów – stare treści plików, długie wyniki testów, stare konteksty i zrzuty nie są wysyłane ponownie. Instrukcja modelu krótsza: wskazówki ze skilli mobile-ui-patterns, canvas-2d-game i threejs-3d włączasz przełącznikami w oknie Instrukcja modelu (nowe projekty – wyłączone, istniejące – bez zmian). „Wyślij do AI” w konsoli pisze w języku projektu, a w czacie zostaje rozwijany komentarz systemowy; wszystkie komentarze systemowe pokazują po rozwinięciu, co wysłano do AI.
+
 ## 0.1.63 – 2026-11-08
 
 Model AI projektu: w ustawieniach projektu i na dole okna nowego projektu wybierasz „Domyślny środowiska” albo „Inny model” – dostawcę z rozwijanej listy (z kluczem w środowisku oraz LLM7 bez tokena) i model z listy. Nowy projekt od razu wita się wybranym modelem.

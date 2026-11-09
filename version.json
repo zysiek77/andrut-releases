@@ -1,8 +1,8 @@
 {
-  "versionCode": 63,
-  "versionName": "0.1.63",
-  "changes": "Model AI projektu: w ustawieniach projektu i na dole okna nowego projektu wybierasz „Domyślny środowiska” albo „Inny model” – dostawcę z rozwijanej listy (z kluczem w środowisku oraz LLM7 bez tokena) i model z listy. Nowy projekt od razu wita się wybranym modelem.",
-  "apk": "andrut-0.1.63.apk",
-  "sha256": "6876010d961d0afade2f73d5b2d5daa9c3d8d51bb34d94457451a35271024a94",
-  "size": 28530964
+  "versionCode": 67,
+  "versionName": "0.1.67",
+  "changes": "Przycinaj starą historię dla AI (przełącznik w ustawieniach projektu, domyślnie wyłączony): w długich sesjach mniej tokenów – stare treści plików, długie wyniki testów, stare konteksty i zrzuty nie są wysyłane ponownie. Instrukcja modelu krótsza: wskazówki ze skilli mobile-ui-patterns, canvas-2d-game i threejs-3d włączasz przełącznikami w oknie Instrukcja modelu (nowe projekty – wyłączone, istniejące – bez zmian). „Wyślij do AI” w konsoli pisze w języku projektu, a w czacie zostaje rozwijany komentarz systemowy; wszystkie komentarze systemowe pokazują po rozwinięciu, co wysłano do AI.",
+  "apk": "andrut-0.1.67.apk",
+  "sha256": "16f22e2778d3d03e5bde762df4e98d5fd09c901f4139487e505a53aaac9825f8",
+  "size": 28537816
 }
