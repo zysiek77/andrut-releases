@@ -1,8 +1,8 @@
 {
-  "versionCode": 83,
-  "versionName": "0.1.83",
-  "changes": "Nowy projekt: wybór skilli i fragmentów instrukcji (zwijana sekcja „Skille i instrukcja”, na starcie nic nie jest zaznaczone). run_js czeka na wynik Promise. Kontrola świata czeka na gotowość: ustalony ekran albo sygnał window.andrutLoading – koniec fałszywego „pustego ekranu” przy wolno startujących bibliotekach. interact_world: krok waitFor (czekaj na element lub tekst). Ustawienia aplikacji: „Czasy oczekiwania narzędzi”.",
-  "apk": "andrut-0.1.83.apk",
-  "sha256": "a136b5a786f9ee1e89db4d1710f921685dc2e6ca288c86cb18c7b73460412b9c",
-  "size": 28557520
+  "versionCode": 89,
+  "versionName": "0.1.89",
+  "changes": "Skill threejs-3d: w grach z perspektywy pierwszej osoby pierwszeństwo ma skill threejs-fps (szablon z dwoma joystickami), jeśli jest zainstalowany. Poza aplikacją: Andrut Lite – jeden plik HTML (web/andrut-lite.html w repo) do budowania światów w przeglądarce z kluczem OpenRouter lub Claude.",
+  "apk": "andrut-0.1.89.apk",
+  "sha256": "021c2b6846abd7c3b5ab90d9bdc97f4b26ed221979f6a4ecf66b1a6faab6fb95",
+  "size": 28557620
 }
