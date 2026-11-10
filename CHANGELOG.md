@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.83 – 2026-11-10
+
+Nowy projekt: wybór skilli i fragmentów instrukcji (zwijana sekcja „Skille i instrukcja”, na starcie nic nie jest zaznaczone). run_js czeka na wynik Promise. Kontrola świata czeka na gotowość: ustalony ekran albo sygnał window.andrutLoading – koniec fałszywego „pustego ekranu” przy wolno startujących bibliotekach. interact_world: krok waitFor (czekaj na element lub tekst). Ustawienia aplikacji: „Czasy oczekiwania narzędzi”.
+
 ## 0.1.75 – 2026-11-09
 
 Instrukcja modelu w rozdziałach i bez powtórzeń (krótsza o ok. 45%), nowy fragment „Wygląd i dopasowanie do okna” (domyślnie włączony); opis projektu pisze użytkownik (pole przy tworzeniu, edycja w ℹ️), AI nie nadpisuje go już narzędziem; zapis pliku ucięty limitem długości – ponowienie z większym limitem i prawdziwa przyczyna zamiast „Brak parametru path”, nowe narzędzie append_file do pisania dużych plików częściami; „Wyczyść dziennik” obok eksportu; w ℹ️ sekcja „Kontekst aplikacji” – co AI dostaje z każdą wiadomością; ikona ⟳ „Odśwież świat” w konsoli błędów z paskiem wyniku.

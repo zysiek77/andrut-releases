@@ -3,7 +3,7 @@
 Andrut to demo aplikacji na Androida (telefon i tablet), w której razem z AI budujesz „światy” –
 małe aplikacje tworzone i zmieniane na bieżąco w czacie lub głosem.
 
-**Najnowsza wersja: 0.1.75** – [pobierz andrut.apk](https://github.com/zysiek77/andrut-releases/raw/main/andrut.apk)
+**Najnowsza wersja: 0.1.83** – [pobierz andrut.apk](https://github.com/zysiek77/andrut-releases/raw/main/andrut.apk)
 
 ## Pierwsza instalacja
 1. Otwórz link do `andrut.apk` na telefonie lub tablecie i pobierz plik.
@@ -17,6 +17,10 @@ o zgodę „Instaluj nieznane aplikacje” dla Andruta. Każda wersja jest podpi
 więc instaluje się jako aktualizacja – bez utraty danych.
 
 ## Historia zmian
+## 0.1.83 – 2026-11-10
+
+Nowy projekt: wybór skilli i fragmentów instrukcji (zwijana sekcja „Skille i instrukcja”, na starcie nic nie jest zaznaczone). run_js czeka na wynik Promise. Kontrola świata czeka na gotowość: ustalony ekran albo sygnał window.andrutLoading – koniec fałszywego „pustego ekranu” przy wolno startujących bibliotekach. interact_world: krok waitFor (czekaj na element lub tekst). Ustawienia aplikacji: „Czasy oczekiwania narzędzi”.
+
 ## 0.1.75 – 2026-11-09
 
 Instrukcja modelu w rozdziałach i bez powtórzeń (krótsza o ok. 45%), nowy fragment „Wygląd i dopasowanie do okna” (domyślnie włączony); opis projektu pisze użytkownik (pole przy tworzeniu, edycja w ℹ️), AI nie nadpisuje go już narzędziem; zapis pliku ucięty limitem długości – ponowienie z większym limitem i prawdziwa przyczyna zamiast „Brak parametru path”, nowe narzędzie append_file do pisania dużych plików częściami; „Wyczyść dziennik” obok eksportu; w ℹ️ sekcja „Kontekst aplikacji” – co AI dostaje z każdą wiadomością; ikona ⟳ „Odśwież świat” w konsoli błędów z paskiem wyniku.
