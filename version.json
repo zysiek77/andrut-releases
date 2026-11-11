@@ -1,8 +1,8 @@
 {
-  "versionCode": 89,
-  "versionName": "0.1.89",
-  "changes": "Skill threejs-3d: w grach z perspektywy pierwszej osoby pierwszeństwo ma skill threejs-fps (szablon z dwoma joystickami), jeśli jest zainstalowany. Poza aplikacją: Andrut Lite – jeden plik HTML (web/andrut-lite.html w repo) do budowania światów w przeglądarce z kluczem OpenRouter lub Claude.",
-  "apk": "andrut-0.1.89.apk",
-  "sha256": "021c2b6846abd7c3b5ab90d9bdc97f4b26ed221979f6a4ecf66b1a6faab6fb95",
-  "size": 28557620
+  "versionCode": 96,
+  "versionName": "0.1.96",
+  "changes": "Ręczna edycja plików świata: Pliki → podgląd pliku → „Edytuj” (zapis odświeża świat, „Cofnij edycję”, AI dostaje uwagę o zmienionym pliku). Skille ui5-fiori-elements (słowniki i pomoce wyszukiwania, SAPUI5 1.148 – działa menu „…” na telefonie), ui5-freestyle i threejs-fps są teraz wbudowane i aktualizują się z aplikacją.",
+  "apk": "andrut-0.1.96.apk",
+  "sha256": "bf1b58f9fdbeb974923994674a3e96aaa371e3c918f12f1c4d5d387496468521",
+  "size": 28608211
 }

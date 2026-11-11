@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.96 – 2026-11-11
+
+Ręczna edycja plików świata: Pliki → podgląd pliku → „Edytuj” (zapis odświeża świat, „Cofnij edycję”, AI dostaje uwagę o zmienionym pliku). Skille ui5-fiori-elements (słowniki i pomoce wyszukiwania, SAPUI5 1.148 – działa menu „…” na telefonie), ui5-freestyle i threejs-fps są teraz wbudowane i aktualizują się z aplikacją.
+
 ## 0.1.89 – 2026-11-10
 
 Skill threejs-3d: w grach z perspektywy pierwszej osoby pierwszeństwo ma skill threejs-fps (szablon z dwoma joystickami), jeśli jest zainstalowany. Poza aplikacją: Andrut Lite – jeden plik HTML (web/andrut-lite.html w repo) do budowania światów w przeglądarce z kluczem OpenRouter lub Claude.
