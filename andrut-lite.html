@@ -145,6 +145,10 @@ details.think { align-self: stretch; margin: 2px 0; padding: 6px 10px; border: 1
 details.think summary { cursor: pointer; }
 details.think pre { margin: 6px 0 0; max-height: 220px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
 
+.mcard { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; background: var(--surface2); overflow-wrap: anywhere; }
+.mpick .mlist { max-height: 55dvh; }
+.costrow { padding: 8px 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+
 </style>
 </head>
 <body>
@@ -667,6 +671,45 @@ async function readSse(resp, onEvent) {
   }
 }
 
+
+// ----- cost of an answer (prices of the public OpenRouter list; OpenRouter itself reports the real cost) -----
+async function loadPrices() {
+  let c = null; try { c = JSON.parse(localStorage.getItem('andrut-lite:prices')); } catch (e) {}
+  if (c && c.map && Date.now() - c.t < 864e5) return c.map;
+  try {
+    const r = await fetch(OR_URL + '/models', { signal: AbortSignal.timeout(5000) }); if (!r.ok) throw new Error('HTTP ' + r.status);
+    const map = {}; for (const m of (await r.json()).data) if (m.pricing) map[m.id] = { in: +m.pricing.prompt || 0, out: +m.pricing.completion || 0,
+      read: m.pricing.input_cache_read != null ? +m.pricing.input_cache_read : null, write: m.pricing.input_cache_write != null ? +m.pricing.input_cache_write : null };
+    try { localStorage.setItem('andrut-lite:prices', JSON.stringify({ t: Date.now(), map })); } catch (e) {}
+    return map;
+  } catch (e) { return c && c.map || null; }
+}
+/** "claude-3-7-sonnet-20250219" and "anthropic/claude-3.7-sonnet" name the same model: compare the sorted name parts. */
+const claudeKey = id => String(id).toLowerCase().replace(/^anthropic\//, '').replace(/:.*$/, '').replace(/-\d{8}$/, '').split(/[-.]/).filter(t => t && t !== 'latest').sort().join('-');
+function priceOf(provider, model, map) {
+  if (!map) return null;
+  if (provider === 'openrouter') return map[model] || null;
+  const k = claudeKey(model); for (const id in map) if (id.startsWith('anthropic/') && claudeKey(id) === k) return map[id];
+  return null;
+}
+/** Adds cost, saved (what the cache saved, negative when only written), noPrice, provider and model to the usage of one answer. */
+async function priceUsage(provider, model, usage, settings) {
+  const u = Object.assign({}, usage, { provider, model });
+  try {
+    const rd = u.cacheRead || 0, wr = u.cacheWrite || 0;
+    const p = provider === 'anthropic' || typeof u.cost !== 'number' || rd || wr ? priceOf(provider, model, await loadPrices()) : null;
+    if (provider === 'openrouter') {
+      if (typeof u.cost !== 'number') { if (p) u.cost = u.input * p.in + u.output * p.out; else u.noPrice = true; }
+      if (p && (rd || wr)) { u.saved = rd * (p.in - (p.read != null ? p.read : p.in * 0.1)) - wr * ((p.write != null ? p.write : p.in * 1.25) - p.in); u.savedApprox = true; }
+    } else if (p) {
+      const wm = settings && settings.cacheTtl === '5m' ? 1.25 : 2, fresh = Math.max(0, u.input - rd - wr);
+      u.cost = fresh * p.in + rd * p.in * 0.1 + wr * p.in * wm + u.output * p.out;
+      u.saved = p.in * (rd * 0.9 - wr * (wm - 1));
+    } else u.noPrice = true;
+  } catch (e) { if (typeof u.cost !== 'number') u.noPrice = true; }
+  return u;
+}
+
 /** Prompt cache marker: 1 hour (default, write costs 2x) or 5 minutes (1.25x). */
 const cacheMark = settings => settings && settings.cacheTtl === '5m' ? { type: 'ephemeral' } : { type: 'ephemeral', ttl: '1h' };
 /** Marker on the last block of the last message: the whole earlier history is read from the cache. */
@@ -1009,6 +1052,7 @@ async function runAgent(text) {
           onText: t => { live.text = t; live.progress = { writing: true }; App.ui.onLive && App.ui.onLive(live); },
           onProgress: pr => { live.progress = pr; App.ui.onLive && App.ui.onLive(live); } });
       } catch (e) { p.chat.pop(); throw e; }
+      if (reply.usage) reply.usage = await priceUsage(provider, model, reply.usage, App.settings);
       live.text = reply.text; live.toolCalls = reply.toolCalls; live.usage = reply.usage; delete live.live; delete live.progress;
       // the thinking stays in the interface only (it is never sent back): the text capped, the tokens exact when the provider says them
       const exact = reply.usage && reply.usage.reasoning || 0;
@@ -1058,33 +1102,49 @@ const confirmDlg = (title, text, yes, danger) => dialog(title, h('p', {}, text),
 
 // ----- model choice (provider + model with a searchable list) -----
 function modelCache(provider) { try { return JSON.parse(localStorage.getItem('andrut-lite:models:' + provider) || '[]'); } catch (e) { return []; } }
-function modelFields(state, withDefault) {
-  // a visible, scrollable list under the field (system suggestions are easy to miss on a phone)
+const modelLine = m => (m.free ? 'darmowy · ' : '') + m.id + (m.ctx ? ' · ' + Math.round(m.ctx / 1000) + 'k' : '');
+/** Popup: filter field, "Pobierz listę" and the list; a click only marks a model, "OK" confirms. Resolves with the id or null. */
+async function pickModel(provider, current) {
+  let sel = current || '';
   const list = h('div', { class: 'mlist', role: 'listbox', 'aria-label': 'Lista modeli' }), info = h('div', { class: 'muted small minfo' });
-  const model = h('input', { placeholder: 'id modelu', value: state.model || '', 'aria-label': 'Model', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false',
-    oninput: () => { state.model = model.value.trim(); fill(); } });
-  const pick = id => { model.value = id; state.model = id; fill(); };
+  const q = h('input', { placeholder: 'Szukaj modelu…', 'aria-label': 'Szukaj modelu', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', oninput: () => fill() });
+  let ok = null;
+  const mark = () => { for (const e of list.children) e.classList.toggle('on', e.dataset.id === sel); if (ok) ok.disabled = !sel; };
   const fill = () => {
-    const all = modelCache(state.provider), q = model.value.trim().toLowerCase();
-    const exact = all.some(m => m.id === model.value.trim());
-    const ms = q && !exact ? all.filter(m => (m.id + ' ' + m.name).toLowerCase().includes(q)) : all;
-    list.replaceChildren(...ms.slice(0, 60).map(m => h('button', { type: 'button', class: 'mitem' + (m.id === state.model ? ' on' : ''), role: 'option', 'data-id': m.id, onclick: () => pick(m.id) },
-      h('span', {}, m.name), h('span', { class: 'muted small' }, m.id + (m.free ? ' · darmowy' : '') + (m.ctx ? ' · ' + Math.round(m.ctx / 1000) + 'k' : '')))));
+    const all = modelCache(provider), t = q.value.trim().toLowerCase();
+    const ms = t ? all.filter(m => (m.id + ' ' + m.name).toLowerCase().includes(t)) : all;
+    list.replaceChildren(...ms.slice(0, 60).map(m => h('button', { type: 'button', class: 'mitem', role: 'option', 'data-id': m.id, onclick: () => { sel = m.id; mark(); } },
+      h('span', {}, m.name), h('span', { class: 'muted small' }, modelLine(m)))));
     list.hidden = !ms.length;
-    info.textContent = !all.length ? 'Lista modeli nie jest pobrana – kliknij „Pobierz listę” albo wpisz id ręcznie'
-      : !ms.length ? 'Żaden z ' + all.length + ' modeli nie pasuje do „' + model.value.trim() + '” (można też wpisać id ręcznie)'
+    info.textContent = !all.length ? 'Lista modeli nie jest pobrana – kliknij „Pobierz listę”'
+      : !ms.length ? 'Żaden z ' + all.length + ' modeli nie pasuje do „' + q.value.trim() + '”'
       : ms.length > 60 ? 'Pokazuję 60 z ' + ms.length + ' modeli – wpisz fragment nazwy, żeby zawęzić' : ms.length + (ms.length === all.length ? ' modeli na liście' : ' z ' + all.length + ' modeli pasuje');
-    const on = list.querySelector('.on'); if (on && exact) list.scrollTop = on.offsetTop - list.offsetTop - 40;
+    mark();
+    const on = list.querySelector('.on'); if (on && !t) list.scrollTop = on.offsetTop - list.offsetTop - 40;
   };
   const refresh = h('button', { type: 'button', onclick: async () => { refresh.disabled = true; info.textContent = 'Pobieram listę…';
-    try { const ms = await fetchModels(state.provider, App.settings); localStorage.setItem('andrut-lite:models:' + state.provider, JSON.stringify(ms)); fill(); } catch (e) { info.textContent = 'Nie udało się: ' + e.message; }
+    try { const ms = await fetchModels(provider, App.settings); localStorage.setItem('andrut-lite:models:' + provider, JSON.stringify(ms)); fill(); } catch (e) { info.textContent = 'Nie udało się: ' + e.message; }
     refresh.disabled = false; } }, 'Pobierz listę');
+  const body = h('div', { class: 'mpick' }, h('div', { class: 'rowf' }, q, h('div', { style: 'flex:none' }, refresh)), info, list);
+  const done = dialog('Wybierz model', body, [{ label: 'Anuluj', value: null }, { label: 'OK', value: true, primary: true, check: () => !!sel }]);
+  ok = [...document.querySelectorAll('dialog')].pop().querySelector('.actions .primary');
+  fill(); q.focus();
+  return (await done) ? sel : null;
+}
+function modelFields(state, withDefault) {
+  const card = h('div', { class: 'mcard' });
+  const show = () => {
+    const m = modelCache(state.provider).find(x => x.id === state.model);
+    card.replaceChildren(h('div', { class: 'muted small' }, 'Wybrany model'),
+      state.model ? h('b', {}, m ? m.name : state.model) : h('b', {}, 'Domyślny: ' + PROVIDERS[state.provider].defaultModel),
+      state.model ? h('div', { class: 'muted small' }, m ? modelLine(m) : state.model) : '');
+  };
+  const choose = h('button', { type: 'button', onclick: async () => { const id = await pickModel(state.provider, state.model); if (id) { state.model = id; show(); } } }, 'Wybierz model…');
   const opts = Object.entries(PROVIDERS).map(([id, p]) => h('option', { value: id, selected: state.provider === id }, p.label));
   if (withDefault) opts.unshift(h('option', { value: '', selected: !state.provider }, 'Domyślny z ustawień'));
-  const modelRow = h('div', {}, h('label', {}, 'Model'), h('div', { class: 'rowf' }, model, h('div', { style: 'flex:none' }, refresh)), info, list);
-  const provider = h('select', { 'aria-label': 'Dostawca', onchange: () => { state.provider = provider.value || null; state.model = ''; model.value = ''; modelRow.hidden = !state.provider;
-    if (state.provider) { model.placeholder = PROVIDERS[state.provider].defaultModel; fill(); } } }, opts);
-  modelRow.hidden = !state.provider; if (state.provider) { model.placeholder = PROVIDERS[state.provider].defaultModel; fill(); }
+  const modelRow = h('div', {}, h('label', {}, 'Model'), card, h('div', { style: 'margin-top:6px' }, choose));
+  const provider = h('select', { 'aria-label': 'Dostawca', onchange: () => { state.provider = provider.value || null; state.model = ''; modelRow.hidden = !state.provider; if (state.provider) show(); } }, opts);
+  modelRow.hidden = !state.provider; if (state.provider) show();
   return h('div', {}, h('label', {}, 'Dostawca'), provider, modelRow);
 }
 function skillChecks(selected) {
@@ -1227,6 +1287,29 @@ function reasoningSelect(value, withDefault, onchange) {
     h('div', { class: 'muted small' }, 'Nie każdy model pozwala skrócić albo wyłączyć rozumowanie – wtedy parametr jest ignorowany. Licznik tokenów i podgląd myślenia w czacie pokażą, czy zadziałało.'));
 }
 
+// ----- cost of the session -----
+const fmtUsd = n => '$' + (n >= 0.1 ? n.toFixed(2) : n >= 0.001 ? n.toFixed(3) : n > 0 ? n.toFixed(4) : '0').replace('.', ',');
+/** Sums the usage saved in the chat: totals and a row per provider and model. */
+function sessionCost(chat) {
+  const t = { cost: 0, saved: 0, approx: false, answers: 0, priced: 0, noPrice: 0, rows: {} };
+  for (const m of chat) { const u = m.role === 'assistant' && m.usage; if (!u) continue;
+    t.answers++; const key = (u.provider || '?') + ' · ' + (u.model || '?'), r = t.rows[key] = t.rows[key] || { n: 0, input: 0, read: 0, write: 0, output: 0, cost: 0, noPrice: 0 };
+    r.n++; r.input += u.input || 0; r.read += u.cacheRead || 0; r.write += u.cacheWrite || 0; r.output += u.output || 0;
+    if (typeof u.cost === 'number') { t.cost += u.cost; r.cost += u.cost; t.priced++; } else { t.noPrice++; r.noPrice++; }
+    if (typeof u.saved === 'number') { t.saved += u.saved; if (u.savedApprox) t.approx = true; } }
+  return t;
+}
+function costDialog(chat) {
+  const t = sessionCost(chat), row = (k, r) => h('div', { class: 'costrow' }, h('b', {}, k),
+    h('div', { class: 'muted small' }, r.n + ' odp. · wysłane: nowe ' + fmtTok(Math.max(0, r.input - r.read - r.write)) + ', z cache ' + fmtTok(r.read) + ', zapisane do cache ' + fmtTok(r.write) + ' · odebrane ' + fmtTok(r.output)),
+    h('div', {}, r.noPrice === r.n ? 'brak cennika' : fmtUsd(r.cost) + (r.noPrice ? ' (+ ' + r.noPrice + ' odp. bez cennika)' : '')));
+  const body = h('div', {}, h('p', {}, h('b', {}, 'Razem: ' + fmtUsd(t.cost)), t.noPrice ? ' (bez ' + t.noPrice + ' odp. bez cennika)' : ''),
+    ...Object.entries(t.rows).map(([k, r]) => row(k, r)),
+    t.saved ? h('p', {}, t.saved > 0 ? 'Zaoszczędzono dzięki cache' + (t.approx ? ' ok. ' : ' ') + fmtUsd(t.saved) + '.' : 'Cache kosztował dodatkowo' + (t.approx ? ' ok. ' : ' ') + fmtUsd(-t.saved) + ' (zapis, który zwróci się przy kolejnych odpowiedziach).') : '',
+    h('div', { class: 'muted small' }, 'Koszt OpenRoutera pochodzi z odpowiedzi dostawcy; koszt Claude’a jest liczony z cen z publicznej listy OpenRoutera.'));
+  return dialog('Koszt sesji', body, [{ label: 'Zamknij', value: true, primary: true }]);
+}
+
 // ----- project screen -----
 async function openProject(id) {
   const p = await DB.get(id); if (!p) return showHome();
@@ -1317,7 +1400,7 @@ async function openProject(id) {
     const nodes = p.chat.flatMap((m, i) => bubble(m, p.chat[i + 1]));
     if (!nodes.length) nodes.push(h('div', { class: 'empty' }, 'Napisz, co chcesz zbudować. Model utworzy pliki świata, a wynik zobaczysz w podglądzie.'));
     if (App.busy && !App.pendingAsk && !(p.chat[p.chat.length - 1] || {}).live) nodes.push(working('Wykonuję narzędzia'));
-    msgs.replaceChildren(...nodes);
+    msgs.replaceChildren(...nodes); showCost();
     if (atBottom) msgs.scrollTop = msgs.scrollHeight;
   }
   App.ui.onChat = renderChat;
@@ -1346,7 +1429,7 @@ async function openProject(id) {
     if (current != null && !(current in p.files)) current = null;
     flist.replaceChildren(...paths.map(k => h('button', { class: 'fitem' + (k === current ? ' on' : ''), onclick: () => showFile(k) }, h('span', {}, k), h('span', {}, fmtSize(fileSize(p.files[k]))))));
     if (!paths.length) flist.append(h('div', { class: 'muted small', style: 'padding:10px' }, 'Brak plików'));
-    fview.style.visibility = current == null ? 'hidden' : 'visible';
+    fview.style.display = current == null ? 'none' : '';
     if (current != null && saveFile.disabled && typeof p.files[current] === 'string' && editor.value !== p.files[current]) editor.value = p.files[current];
   }
   App.ui.onFiles = renderFiles;
@@ -1380,18 +1463,21 @@ async function openProject(id) {
   const title = h('div', { class: 'title' }, p.name);
   const projectSettings = async () => { if (App.busy) return toast('Poczekaj, aż model skończy'); if (await projectDialog(p)) { title.textContent = p.name; chip.textContent = modelLabel(); } };
   const chip = h('button', { class: 'chip only-wide', title: 'Model i ustawienia projektu', onclick: projectSettings }, modelLabel());
+  const costChip = h('button', { class: 'chip', id: 'costchip', title: 'Koszt sesji – szczegóły', hidden: true, onclick: () => costDialog(p.chat) });
+  const showCost = () => { const t = sessionCost(p.chat); costChip.hidden = !t.answers;
+    costChip.replaceChildren(h('span', { class: 'only-wide' }, 'Sesja: '), t.priced ? fmtUsd(t.cost) : '–'); };
   work.append(
     h('div', { class: 'pane chat' }, msgs, h('div', { class: 'compose' }, input, sendBtn)),
     h('div', { class: 'pane side' }, h('div', { class: 'tabs' }, tabBtn.world, tabBtn.files, tabBtn.console,
       h('span', { style: 'flex:1' }), h('button', { title: 'Wczytaj świat od nowa', onclick: () => reloadWorld() }, '↻')), h('div', { class: 'views' }, views.world, views.files, views.console)));
   root().replaceChildren(
     h('div', { class: 'bar' }, h('button', { class: 'icon', title: 'Lista projektów', 'aria-label': 'Lista projektów', onclick: async () => { if (App.busy && App.abort) App.abort.abort(); await saveNow(); showHome(); } }, '←'),
-      title, chip, h('div', { class: 'tabs-narrow' }, narrowChat, narrowSide),
+      title, costChip, chip, h('div', { class: 'tabs-narrow' }, narrowChat, narrowSide),
       h('button', { class: 'only-wide', title: 'Eksport projektu (.andrut.zip)', onclick: () => download(safeName(p.name) + '.andrut.zip', exportProjectZip(p)) }, 'ZIP'),
       h('button', { class: 'only-wide', title: 'Eksport świata jako jeden plik HTML', onclick: () => exportHtml(p) }, 'HTML'),
       h('button', { class: 'icon', title: 'Ustawienia projektu i eksport', 'aria-label': 'Ustawienia projektu', onclick: projectSettings }, '⚙')),
     work);
-  renderChat(); renderFiles(); renderConsole();
+  renderChat(); renderFiles(); renderConsole(); showCost();
   msgs.scrollTop = msgs.scrollHeight;
   await reloadWorld();
 }
