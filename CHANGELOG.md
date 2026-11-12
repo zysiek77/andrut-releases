@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.118 – 2026-11-12
+
+Ustawienia aplikacji → Diagnostyka → „Przeglądaj dziennik”: wpisy z filtrami (wszystko / ostrzeżenia / błędy, tagi), szukaniem, zwijanym stosem wywołań i kopiowaniem przytrzymaniem. Nowa sekcja „Limity i czekanie” w Andrucie i Andrut Lite: limit kroków AI 25 (80 przy pracy etapami), czasy narzędzi, limity znaków read_file / run_js / read_world_data / read_console, ponowienia po błędzie sieci, limit długości odpowiedzi, liczniki kontroli świata, auto-naprawy, ponagleń planu i restartów podglądu, „Przywróć domyślne”. Andrut Lite: podsumowanie i „Kontynuuj” po limicie kroków, edycja wbudowanej instrukcji modelu, eksport i import całej aplikacji (ustawienia i wszystkie projekty) w ZIP.
+
 ## 0.1.96 – 2026-11-11
 
 Ręczna edycja plików świata: Pliki → podgląd pliku → „Edytuj” (zapis odświeża świat, „Cofnij edycję”, AI dostaje uwagę o zmienionym pliku). Skille ui5-fiori-elements (słowniki i pomoce wyszukiwania, SAPUI5 1.148 – działa menu „…” na telefonie), ui5-freestyle i threejs-fps są teraz wbudowane i aktualizują się z aplikacją.

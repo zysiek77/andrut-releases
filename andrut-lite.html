@@ -149,6 +149,13 @@ details.think pre { margin: 6px 0 0; max-height: 220px; overflow: auto; white-sp
 .mpick .mlist { max-height: 55dvh; }
 .costrow { padding: 8px 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
 
+/* settings: limits, model instruction */
+input.bad { border-color: var(--danger, #d33); }
+textarea.mono { font: 12px/1.45 ui-monospace, Menlo, Consolas, monospace; min-height: 220px; max-height: 50dvh; }
+details.instr { margin-top: 16px; }
+details.instr summary { cursor: pointer; font-weight: 600; font-size: 15px; padding: 4px 0; }
+.limitbox { align-items: center; gap: 10px; }
+
 </style>
 </head>
 <body>
@@ -179,10 +186,31 @@ function h(tag, attrs, ...kids) {
 }
 
 // ----- settings (keys stay in this browser only) -----
+/**
+ * Limits and waits ("Limity i czekanie" in the settings) – the same defaults and ranges as in the Android app.
+ * [default, min, max]; maxTokens 0 = Auto (Claude 32 000, others 16 000).
+ */
+const LIMITS = {
+  maxSteps: [25, 5, 200], runJsWaitS: [10, 1, 120], checkWaitS: [10, 1, 120], waitForS: [10, 1, 120],
+  readFileChars: [60000, 2000, 200000], runJsChars: [4000, 1000, 50000], worldDataChars: [4000, 1000, 50000], consoleChars: [4000, 1000, 50000],
+  netRetries: [1, 0, 3], maxTokens: [0, 1000, 128000],
+};
+/** A limit from the settings, clamped to its range (maxTokens 0 stays 0 = Auto). */
+function limit(key, settings) {
+  const [def, min, max] = LIMITS[key], v = Math.round(+((settings || App.settings)[key]));
+  if (!Number.isFinite(v)) return def;
+  if (key === 'maxTokens' && v <= 0) return 0;
+  return Math.min(max, Math.max(min, v));
+}
+const SETTINGS_DEFAULTS = () => Object.assign({ orKey: '', anKey: '', provider: 'openrouter', model: '', userName: '', instruction: '', reasoning: 'auto', cacheTtl: '1h',
+  // own version of the built-in model instruction ('' = the built-in one) and the hash of the built-in text it was made from
+  modelInstruction: '', modelInstructionBase: '' }, Object.fromEntries(Object.entries(LIMITS).map(([k, v]) => [k, v[0]])));
 const Settings = {
-  load() { try { return Object.assign({ orKey: '', anKey: '', provider: 'openrouter', model: '', userName: '', instruction: '', reasoning: 'auto', cacheTtl: '1h' }, JSON.parse(localStorage.getItem('andrut-lite:settings') || '{}')); } catch (e) { return { orKey: '', anKey: '', provider: 'openrouter', model: '', userName: '', instruction: '', reasoning: 'auto', cacheTtl: '1h' }; } },
+  load() { try { return Object.assign(SETTINGS_DEFAULTS(), JSON.parse(localStorage.getItem('andrut-lite:settings') || '{}')); } catch (e) { return SETTINGS_DEFAULTS(); } },
   save(s) { localStorage.setItem('andrut-lite:settings', JSON.stringify(s)); },
 };
+/** Short hash of a text (which built-in instruction an own version was made from). */
+function textHash(t) { let x = 5381; for (let i = 0; i < t.length; i++) x = ((x << 5) + x + t.charCodeAt(i)) | 0; return (x >>> 0).toString(36) + ':' + t.length; }
 
 // ----- projects in IndexedDB (falls back to memory when the browser forbids it) -----
 const DB = {
@@ -277,7 +305,7 @@ const safeName = s => (s.replace(/[^\p{L}\p{N} _-]/gu, '').trim() || 'projekt').
 // ----- project <-> .andrut.zip (same layout as the Android app) -----
 function exportProjectZip(p) {
   const meta = Object.assign({}, p.andrut || { theme: 'clean', lang: 'en', style: 'concise', appWeb: false }, {
-    id: p.id, name: p.name, description: p.description || '', created: p.created,
+    id: p.id, name: p.name, description: p.description || '', created: p.created, lastOpened: p.lastOpened || p.created, skills: p.skills || [], reasoning: p.reasoning || '',
     provider: p.provider === 'anthropic' ? 'ANTHROPIC' : p.provider === 'openrouter' ? 'OPENROUTER' : null, model: p.provider ? p.model || null : null,
   });
   const chat = p.chat.map(m => ({ id: m.id, role: m.role, text: m.text || '', context: m.context || '', toolCalls: m.toolCalls || [],
@@ -288,12 +316,19 @@ function exportProjectZip(p) {
   for (const [path, v] of Object.entries(p.files)) entries.push({ name: 'world/' + path, data: fileBytes(v) });
   return zipStore(entries);
 }
-async function importProjectZip(buf) {
-  const entries = await unzip(buf), get = n => entries.find(e => e.name === n);
+/** keepId: the project keeps its identifier (restoring a backup) – otherwise it gets a new one (import next to the existing projects). */
+async function importProjectZip(buf, keepId) {
+  const entries = Array.isArray(buf) ? buf : await unzip(buf), get = n => entries.find(e => e.name === n);
   if (!get('project.json')) throw new Error('to nie jest projekt Andruta (brak project.json)');
   const meta = JSON.parse(dec.decode(get('project.json').data));
   const p = newProject(meta.name, meta.description);
-  p.andrut = meta;
+  if (keepId && meta.id) p.id = meta.id;
+  if (meta.created) p.created = meta.created;
+  // fields of Andrut Lite (the Android app ignores them)
+  if (Array.isArray(meta.skills)) p.skills = meta.skills.filter(id => typeof id === 'string');
+  if (typeof meta.reasoning === 'string') p.reasoning = meta.reasoning;
+  if (meta.lastOpened) p.lastOpened = meta.lastOpened;
+  p.andrut = Object.assign({}, meta); for (const k of ['skills', 'reasoning', 'lastOpened']) delete p.andrut[k];
   p.provider = meta.provider === 'ANTHROPIC' ? 'anthropic' : meta.provider === 'OPENROUTER' ? 'openrouter' : null;
   p.model = p.provider ? meta.model || null : null;
   if (get('chat.json')) try { p.chat = JSON.parse(dec.decode(get('chat.json').data)).map(m => ({ id: m.id || uid(), role: m.role, text: m.text || '', context: m.context || '',
@@ -301,6 +336,40 @@ async function importProjectZip(buf) {
   if (get('data.json')) try { p.data = JSON.parse(dec.decode(get('data.json').data)); } catch (e) {}
   for (const e of entries) if (e.name.startsWith('world/')) p.files[e.name.slice(6)] = fileFromBytes(e.name, e.data);
   return p;
+}
+
+// ----- backup of the whole app: settings.json + projects/<name>.zip (each in the project ZIP format) -----
+const BACKUP_KEYS = ['orKey', 'anKey'];
+async function exportBackup(projects, settings, withKeys) {
+  const st = Object.assign({}, settings); if (!withKeys) for (const k of BACKUP_KEYS) delete st[k];
+  const entries = [{ name: 'andrut-lite-backup.json', data: enc.encode(JSON.stringify({ format: 1, created: Date.now(), projects: projects.length, keys: !!withKeys }, null, 2)) },
+    { name: 'settings.json', data: enc.encode(JSON.stringify(st, null, 2)) }];
+  const used = new Set();
+  for (const p of projects) {
+    let n = safeName(p.name), k = n; for (let i = 2; used.has(k); i++) k = n + ' ' + i; used.add(k);
+    entries.push({ name: 'projects/' + k + '.zip', data: new Uint8Array(await exportProjectZip(p).arrayBuffer()) });
+  }
+  return zipStore(entries);
+}
+/** Reads a backup: { info, settings, projects } – or { single: entries } for a ZIP of one project. Throws on a foreign file. */
+async function readBackup(buf) {
+  const entries = await unzip(buf), get = n => entries.find(e => e.name === n);
+  if (!get('andrut-lite-backup.json') || !get('settings.json')) {
+    if (get('project.json')) return { single: entries };
+    throw new Error('to nie jest kopia Andrut Lite (brak andrut-lite-backup.json)');
+  }
+  const info = JSON.parse(dec.decode(get('andrut-lite-backup.json').data)), settings = JSON.parse(dec.decode(get('settings.json').data));
+  const projects = [];
+  for (const e of entries) if (/^projects\/.+\.zip$/.test(e.name)) projects.push(await importProjectZip(e.data.buffer.slice(e.data.byteOffset, e.data.byteOffset + e.data.byteLength), true));
+  return { info, settings, projects };
+}
+/** Applies a backup: mode 'add' (same id replaced, others kept) or 'replace' (all current projects deleted). Keys change only when the backup has them. */
+async function applyBackup(b, mode, current) {
+  if (mode === 'replace') for (const p of await DB.all()) await DB.del(p.id);
+  for (const p of b.projects) await DB.put(p);
+  const s = Object.assign(SETTINGS_DEFAULTS(), b.settings);
+  for (const k of BACKUP_KEYS) if (!b.settings[k]) s[k] = current[k] || '';
+  return s;
 }
 
 // ----- composing the world page -----
@@ -601,7 +670,7 @@ function providerError({ status, err, body, url }) {
   if (meta.raw !== undefined && meta.raw !== null && meta.raw !== '') lines.push('Oryginalny komunikat dostawcy: ' + cut(meta.raw, 1500));
   if (url) lines.push('Adres: ' + urlNoQuery(url));
   if (body) lines.push('Odpowiedź: ' + cut(body, 2000));
-  return Object.assign(new Error((status ? 'HTTP ' + status : 'Błąd dostawcy') + who + hintFor(status, type) + (t ? ': ' + cut(t, 400) : '')), { detail: lines.join('\n'), retry: true });
+  return Object.assign(new Error((status ? 'HTTP ' + status : 'Błąd dostawcy') + who + hintFor(status, type) + (t ? ': ' + cut(t, 400) : '')), { detail: lines.join('\n'), retry: true, status: status || 0 });
 }
 async function httpError(r) {
   let body = ''; try { body = await r.text(); } catch (e) {}
@@ -610,7 +679,7 @@ async function httpError(r) {
 }
 function netError(e, url) {
   return Object.assign(new Error('Brak połączenia z dostawcą (' + (e && e.message || e) + ') – sprawdź internet i ponów'),
-    { detail: 'Błąd sieci: ' + (e && e.name ? e.name + ': ' : '') + (e && e.message || e) + '\nAdres: ' + urlNoQuery(url), retry: true });
+    { detail: 'Błąd sieci: ' + (e && e.name ? e.name + ': ' : '') + (e && e.message || e) + '\nAdres: ' + urlNoQuery(url), retry: true, net: true });
 }
 /** fetch that turns a network failure into a readable error (an abort stays an abort). */
 async function apiFetch(url, opts) {
@@ -733,20 +802,24 @@ const isClaudeOnOr = model => /^anthropic\//.test(model || '');
  * One model answer. tools: [{ name, description, parameters }]. onText(textSoFar) is called while the answer streams.
  * Returns { text, toolCalls: [{ id, name, args }], stop, usage }.
  */
-async function callModel({ provider, model, settings, system, chat, tools, signal, onText, onProgress, onReasoning, effort }) {
+/** The provider rejected the requested answer length (the model allows less). */
+const tooLong = e => /max_tokens|max_completion_tokens|output tokens/i.test((e.message || '') + ' ' + (e.detail || ''));
+async function callModel({ provider, model, settings, system, chat, tools, signal, onText, onProgress, onReasoning, effort, maxTokens }) {
   const key = settings[PROVIDERS[provider].keyField];
   if (!key) throw new Error('Brak klucza ' + PROVIDERS[provider].label + ' – wpisz go w ustawieniach');
   let text = '', reasoning = '', stop = '', usage = null; const calls = [];
   if (provider === 'openrouter') {
     // thinking level: Auto sends nothing; a provider that rejects the parameter (400) gets the same request without it
     const level = effort && effort !== 'auto' ? effort : '';
-    const send = withLevel => apiFetch(OR_URL + '/chat/completions', { method: 'POST', signal,
+    const send = (withLevel, withMax) => apiFetch(OR_URL + '/chat/completions', { method: 'POST', signal,
       headers: { authorization: 'Bearer ' + key, 'content-type': 'application/json', 'x-title': 'Andrut Lite' },
       body: JSON.stringify(Object.assign({ model, stream: true, messages: isClaudeOnOr(model) ? markOpenAi(toOpenAi(system, chat), cacheMark(settings)) : toOpenAi(system, chat), usage: { include: true },
         tools: tools.map(t => ({ type: 'function', function: { name: t.name, description: t.description, parameters: t.parameters } })) },
-        withLevel && level ? { reasoning: level === 'off' ? { enabled: false } : { effort: level } } : {})) });
-    let r = await send(true);
-    if (r.status === 400 && level) r = await send(false);
+        withLevel && level ? { reasoning: level === 'off' ? { enabled: false } : { effort: level } } : {}, withMax && maxTokens ? { max_tokens: maxTokens } : {})) });
+    let withLevel = true, r = await send(true, true);
+    // a provider that rejects a parameter (400): the thinking level, then the answer length – the same request without it
+    if (r.status === 400 && level) { withLevel = false; r = await send(false, true); }
+    if (r.status === 400 && maxTokens) { const e = await httpError(r); if (!tooLong(e)) throw e; r = await send(withLevel, false); }
     if (!r.ok) throw await httpError(r);
     await readSse(r, j => {
       if (j.error) throw providerError({ status: +(j.error.code) || 0, err: typeof j.error === 'object' ? j.error : { message: String(j.error) }, body: JSON.stringify(j).slice(0, 2000), url: OR_URL + '/chat/completions' });
@@ -768,8 +841,11 @@ async function callModel({ provider, model, settings, system, chat, tools, signa
   } else {
     const defs = tools.map(t => ({ name: t.name, description: t.description, input_schema: t.parameters }));
     if (defs.length) defs[defs.length - 1].cache_control = cacheMark(settings);
-    const r = await apiFetch(AN_URL + '/messages', { method: 'POST', signal, headers: anHeaders(key),
-      body: JSON.stringify({ model, max_tokens: 16000, stream: true, system: [{ type: 'text', text: system, cache_control: cacheMark(settings) }], messages: markLastAnthropic(toAnthropic(chat), cacheMark(settings)), tools: defs }) });
+    const send = max => apiFetch(AN_URL + '/messages', { method: 'POST', signal, headers: anHeaders(key),
+      body: JSON.stringify({ model, max_tokens: max, stream: true, system: [{ type: 'text', text: system, cache_control: cacheMark(settings) }], messages: markLastAnthropic(toAnthropic(chat), cacheMark(settings)), tools: defs }) });
+    let r = await send(maxTokens || 32000);
+    // an older model allows a shorter answer: once more with 8192
+    if (r.status === 400) { const e = await httpError(r); if (!tooLong(e)) throw e; r = await send(8192); }
     if (!r.ok) throw await httpError(r);
     const blocks = {};
     await readSse(r, j => {
@@ -790,7 +866,10 @@ async function callModel({ provider, model, settings, system, chat, tools, signa
 
 // ===== Andrut Lite: the world frame, the tools of the model and the work loop =====
 const App = { settings: Settings.load(), project: null, console: [], busy: false, abort: null, pendingAsk: null, dirty: false, frame: null, loads: 0, ui: {} };
-const MAX_STEPS = 60, RESULT_LIMIT = 12000, WAIT_MS = 10000;
+/** Limits from the settings (see LIMITS in core.js): waits in ms, result lengths in characters. */
+const waitMs = key => limit(key) * 1000;
+/** Cuts a tool result to a limit with a note, so the model knows it does not see everything. */
+const cutEnd = (t, max) => t.length > max ? t.slice(0, max) + '…(truncated – showing ' + max + ' of ' + t.length + ' characters)' : t;
 
 let saveTimer = null;
 function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(() => App.project && DB.put(App.project), 300); }
@@ -829,7 +908,7 @@ function screenSample() {
   return { loading: win().andrutLoading === true, sig: text.length + ':' + d.getElementsByTagName('*').length,
     content: text.length > 0 || !!d.querySelector('canvas,img,svg,video,input,button') };
 }
-/** Waits until the world has drawn its first screen: no loading flag and the content stable for 1 s (at most WAIT_MS). */
+/** Waits until the world has drawn its first screen: no loading flag and the content stable for 1 s (at most the check_world limit). */
 async function waitReady(limit) {
   const t0 = Date.now(); let last = '', since = t0;
   for (;;) {
@@ -837,7 +916,7 @@ async function waitReady(limit) {
     const now = Date.now();
     if (s.sig !== last) { last = s.sig; since = now; }
     if (!s.loading && s.content && (now - since >= 1000 || now - t0 >= 2500)) return { waited: now - t0, loading: false };
-    if (now - t0 >= (limit || WAIT_MS)) return { waited: now - t0, loading: s.loading };
+    if (now - t0 >= (limit || waitMs('checkWaitS'))) return { waited: now - t0, loading: s.loading };
     await sleep(150);
   }
 }
@@ -847,18 +926,20 @@ function fmt(r) {
   let s; try { const seen = []; s = JSON.stringify(r, (k, v) => { if (typeof v === 'function') return 'function ' + (v.name || ''); if (v && v.nodeType === 1) return '<' + v.tagName.toLowerCase() + (v.id ? '#' + v.id : '') + '>';
     if (v && typeof v === 'object') { if (seen.includes(v)) return '[cycle]'; seen.push(v); } return v; }); } catch (e) {}
   if (s === undefined) s = String(r);
-  return s.length > 4000 ? s.slice(0, 4000) + '…(cut)' : s;
+  return cutEnd(s, limit('runJsChars'));
 }
 function screenText(limit) {
   let d = ''; try { if (typeof win().andrutDescribe === 'function') d = 'DESCRIPTION (andrutDescribe): ' + String(win().andrutDescribe()) + '\n'; } catch (e) { d = 'DESCRIPTION: error ' + e + '\n'; }
   const t = wdoc().body ? wdoc().body.innerText.trim() : '';
   return (d + 'TEXT ON SCREEN:\n' + (t || '(no text)')).slice(0, limit || 4000);
 }
-function consoleText(level, all, limit) {
+function consoleText(level, all, count) {
   let list = App.console.filter(e => all || e.load === App.loads).filter(e => e.level !== 'load');
   if (level === 'error') list = list.filter(e => e.level === 'error'); else if (level === 'warn') list = list.filter(e => e.level !== 'log');
-  list = list.slice(-(limit || 40));
-  return list.length ? list.map(e => '[' + e.level + '] ' + e.text).join('\n') : '(console is empty)';
+  list = list.slice(-(count || 40));
+  if (!list.length) return '(console is empty)';
+  const t = list.map(e => '[' + e.level + '] ' + e.text).join('\n'), max = limit('consoleChars');
+  return t.length > max ? '…(older truncated)\n' + t.slice(-max) : t;
 }
 
 // ----- interact_world: real pointer / mouse / keyboard events in the frame -----
@@ -899,7 +980,7 @@ async function interact(steps) {
         e.dispatchEvent(new w.Event('input', { bubbles: true })); e.dispatchEvent(new w.Event('change', { bubbles: true })); log.push(n + 'typed ' + JSON.stringify(s.text || '') + ' into ' + s.type); }
       else if (s.waitFor !== undefined) { const isSel = typeof s.waitFor === 'string', what = isSel ? s.waitFor : 'text ' + JSON.stringify(s.waitFor && s.waitFor.text);
         if (!isSel && !(s.waitFor && typeof s.waitFor.text === 'string' && s.waitFor.text)) throw new Error('waitFor: give a CSS selector or {"text":"…"}');
-        const lim = Math.max(100, Math.min(WAIT_MS, s.ms || 5000)), w0 = Date.now(); let ok = false;
+        const lim = Math.max(100, Math.min(waitMs('waitForS'), s.ms || 5000)), w0 = Date.now(); let ok = false;
         for (;;) { if (isSel) { const e = d.querySelector(s.waitFor); if (e) { const r = e.getBoundingClientRect(); ok = r.width > 0 && r.height > 0; } } else ok = !!d.body && d.body.innerText.includes(s.waitFor.text);
           if (ok || Date.now() - w0 >= lim) break; await sleep(100); }
         log.push(n + (ok ? 'appeared: ' + what + ' after ' + (Date.now() - w0) + ' ms' : 'ERROR: did not appear: ' + what + ' within ' + lim + ' ms')); }
@@ -915,21 +996,22 @@ async function interact(steps) {
 // ----- tools -----
 const str = d => ({ type: 'string', description: d });
 const obj = (props, required) => ({ type: 'object', properties: props, required: required || Object.keys(props) });
-const TOOLS = [
+/** Tool definitions – the descriptions show the current limits from the settings. */
+const toolDefs = () => [
   { name: 'list_files', description: "List the world files (path and size in bytes).", parameters: obj({}) },
-  { name: 'read_file', description: 'Read a world file.', parameters: obj({ path: str('Relative path, e.g. index.html') }) },
+  { name: 'read_file', description: 'Read a world file (at most ' + limit('readFileChars') + ' characters; a longer file comes truncated with a note).', parameters: obj({ path: str('Relative path, e.g. index.html') }) },
   { name: 'write_file', description: 'Create or overwrite a world file with its full content. The entry point is index.html. One write max. about 8000 characters – save a bigger file in parts and continue with append_file.', parameters: obj({ path: str('Relative path, e.g. index.html or js/app.js'), content: str('Full file content') }) },
   { name: 'append_file', description: "Append text to the end of a world file (creates it if missing). For writing big files in parts.", parameters: obj({ path: str('Relative path'), content: str('Text appended to the end of the file') }) },
   { name: 'edit_file', description: 'Change part of an existing file: replace exactly one occurrence of old_text with new_text. Cheaper than write_file – use it for fixes. old_text must be copied exactly (including whitespace) and be unique.', parameters: obj({ path: str('Relative path'), old_text: str('Exact fragment to replace'), new_text: str('New fragment') }) },
   { name: 'delete_file', description: 'Delete a world file.', parameters: obj({ path: str('Relative path') }) },
-  { name: 'check_world', description: 'Reload the world, wait until it has drawn its first screen (at most 10 s, respects window.andrutLoading) and report: console errors, empty screen, the visible text. Use after every change.', parameters: obj({}) },
+  { name: 'check_world', description: 'Reload the world, wait until it has drawn its first screen (at most ' + limit('checkWaitS') + ' s, respects window.andrutLoading) and report: console errors, empty screen, the visible text. Use after every change.', parameters: obj({}) },
   { name: 'look_at_world', description: 'Read the text visible now in the world preview and the result of window.andrutDescribe() if it exists. Does not reload.', parameters: obj({}) },
-  { name: 'read_console', description: 'Read the world console (console.log, warnings, JavaScript errors, files that failed to load) since the last world load.', parameters: obj({ level: str('error = errors only, warn = errors and warnings, all = everything (default)'), all: str('true = also entries from before the last reload') }, []) },
+  { name: 'read_console', description: 'Read the world console (console.log, warnings, JavaScript errors, files that failed to load) since the last world load (at most ' + limit('consoleChars') + ' characters – the newest entries).', parameters: obj({ level: str('error = errors only, warn = errors and warnings, all = everything (default)'), all: str('true = also entries from before the last reload') }, []) },
   { name: 'clear_console', description: 'Clear the world console.', parameters: obj({}) },
-  { name: 'run_js', description: 'Run JavaScript in the world page and get the value of the last expression (JSON, max. 4000 characters). A returned Promise is awaited (at most 10 s). Use it to inspect state or call functions of the world.', parameters: obj({ code: str('JavaScript code') }) },
-  { name: 'interact_world', description: 'Act in the world like a user and get the log and the screen text afterwards. steps is a list (max. 20) of: {"click":"css selector"}, {"tap":[x,y]} (fractions of the window), {"type":"css selector","text":"…"}, {"key":"Enter"}, {"drag":"css selector","by":[dx,dy],"ms":400,"hold":0} or {"drag":[x0,y0,x1,y1]}, {"parallel":[drag,drag]}, {"wait":ms}, {"waitFor":"css selector"} or {"waitFor":{"text":"…"},"ms":5000}.',
+  { name: 'run_js', description: 'Run JavaScript in the world page and get the value of the last expression (JSON, max. ' + limit('runJsChars') + ' characters). A returned Promise is awaited (at most ' + limit('runJsWaitS') + ' s). Use it to inspect state or call functions of the world.', parameters: obj({ code: str('JavaScript code') }) },
+  { name: 'interact_world', description: 'Act in the world like a user and get the log and the screen text afterwards. steps is a list (max. 20) of: {"click":"css selector"}, {"tap":[x,y]} (fractions of the window), {"type":"css selector","text":"…"}, {"key":"Enter"}, {"drag":"css selector","by":[dx,dy],"ms":400,"hold":0} or {"drag":[x0,y0,x1,y1]}, {"parallel":[drag,drag]}, {"wait":ms}, {"waitFor":"css selector"} or {"waitFor":{"text":"…"},"ms":5000} (ms at most ' + limit('waitForS') * 1000 + ').',
     parameters: { type: 'object', properties: { steps: { type: 'array', items: { type: 'object' }, description: 'Steps to perform in order' } }, required: ['steps'] } },
-  { name: 'read_world_data', description: "Read the data saved by the world with andrut.setData. Without a key returns everything (max. 4000 characters).", parameters: obj({ key: str('Optional key') }, []) },
+  { name: 'read_world_data', description: "Read the data saved by the world with andrut.setData. Without a key returns everything (max. " + limit('worldDataChars') + " characters).", parameters: obj({ key: str('Optional key') }, []) },
   { name: 'write_world_data', description: 'Save or delete a value of the world data (e.g. reset a score). The world is reloaded.', parameters: obj({ key: str('Key'), value: str('New value (string). Omit to delete the key.') }, ['key']) },
   { name: 'ask_user', description: 'Ask the user a question with several options to choose from (a card in the chat). The user can always answer in their own words too. Use it for a decision with several sensible options or when something is unclear – put the recommended option first. Ask everything unclear at once, one question per call is fine for independent decisions.',
     parameters: { type: 'object', properties: { question: { type: 'string', description: 'The question' },
@@ -948,7 +1030,7 @@ async function execTool(name, a) {
   const changed = () => { App.dirty = true; saveSoon(); App.ui.onFiles && App.ui.onFiles(); };
   switch (name) {
     case 'list_files': return ok(Object.keys(F).sort().map(k => k + ' (' + fileSize(F[k]) + ' B)').join('\n') || '(no files yet)');
-    case 'read_file': if (!(path in F)) return fail('No file ' + path + '. Files: ' + (Object.keys(F).join(', ') || 'none')); return ok(typeof F[path] === 'string' ? F[path] : '(binary file, ' + fileSize(F[path]) + ' B)');
+    case 'read_file': if (!(path in F)) return fail('No file ' + path + '. Files: ' + (Object.keys(F).join(', ') || 'none')); return ok(typeof F[path] === 'string' ? cutEnd(F[path], limit('readFileChars')) : '(binary file, ' + fileSize(F[path]) + ' B)');
     case 'write_file': if (!path) return fail('Missing path'); if (typeof a.content !== 'string') return fail('Missing content'); F[path] = a.content; changed(); return ok('Saved ' + path + ' (' + a.content.length + ' characters)');
     case 'append_file': if (!path) return fail('Missing path'); if (typeof a.content !== 'string') return fail('Missing content'); if (path in F && typeof F[path] !== 'string') return fail(path + ' is a binary file'); F[path] = (F[path] || '') + a.content; changed(); return ok('Appended to ' + path + ' (now ' + F[path].length + ' characters)');
     case 'edit_file': {
@@ -976,8 +1058,8 @@ async function execTool(name, a) {
       if (typeof a.code !== 'string') return fail('Missing code');
       await freshWorld();
       try { let r = win().eval(a.code);
-        if (r && typeof r.then === 'function') { const t = await Promise.race([r.then(v => ({ v }), e => ({ e })), sleep(WAIT_MS).then(() => ({ late: true }))]);
-          if (t.late) return fail('The Promise did not settle within ' + WAIT_MS / 1000 + ' s. Store the result in a global variable (window.__r = …) and read it with the next run_js.');
+        if (r && typeof r.then === 'function') { const t = await Promise.race([r.then(v => ({ v }), e => ({ e })), sleep(waitMs('runJsWaitS')).then(() => ({ late: true }))]);
+          if (t.late) return fail('The Promise did not settle within ' + limit('runJsWaitS') + ' s. Store the result in a global variable (window.__r = …) and read it with the next run_js.');
           if ('e' in t) return fail('ERROR: ' + (t.e && t.e.name ? t.e.name + ': ' + t.e.message : String(t.e)));
           r = t.v; }
         return ok(fmt(r));
@@ -990,7 +1072,7 @@ async function execTool(name, a) {
       const log = await interact(steps), bad = log.some(l => l.includes('ERROR'));
       return { content: log.join('\n') + '\n\n' + screenText(2500), isError: bad };
     }
-    case 'read_world_data': { const d = p.data; if (a.key) return ok(a.key in d ? d[a.key] : '(no such key)'); return ok(JSON.stringify(d).slice(0, 4000)); }
+    case 'read_world_data': { const d = p.data; if (a.key) return ok(a.key in d ? d[a.key] : '(no such key)'); return ok(cutEnd(JSON.stringify(d), limit('worldDataChars'))); }
     case 'write_world_data': if (!a.key) return fail('Missing key'); if (a.value === undefined || a.value === null) delete p.data[a.key]; else p.data[a.key] = String(a.value); saveSoon(); App.dirty = true; return ok('Saved');
     case 'use_skill': { const s = findSkill(p, a.name); if (!s) return fail('No skill ' + a.name + '. Available: ' + (activeSkills(p).map(x => x.name).join(', ') || 'none'));
       const files = Object.keys(s.files).sort(); return ok('# ' + s.name + '\n\n' + s.body + (files.length ? '\n\nFiles of the skill (read_skill_file / copy_skill_file):\n' + files.map(f => '- ' + f).join('\n') : '')); }
@@ -1002,9 +1084,13 @@ async function execTool(name, a) {
   return fail('Unknown tool ' + name);
 }
 
+/** The model instruction: the user's own version from the settings, else the built-in one. */
+const basePrompt = () => (App.settings.modelInstruction || '').trim() ? App.settings.modelInstruction : PROMPT;
+/** The user's own instruction was made from an older built-in one (Andrut Lite was updated since). */
+const newerBuiltIn = st => !!(st.modelInstruction || '').trim() && st.modelInstructionBase !== textHash(PROMPT);
 function systemPrompt(p) {
   const skills = activeSkills(p);
-  return PROMPT + '\n\n# Skills\n' + (skills.length ? skills.map(s => '- ' + s.name + ': ' + s.description).join('\n') : '(no skills are enabled in this project)') +
+  return basePrompt() + '\n\n# Skills\n' + (skills.length ? skills.map(s => '- ' + s.name + ': ' + s.description).join('\n') : '(no skills are enabled in this project)') +
     '\n\n# Project\nName: ' + p.name + (p.description ? '\nDescription: ' + p.description : '') + (App.settings.userName ? '\nUser: ' + App.settings.userName : '') +
     // the user's own global instruction (Settings) comes last and wins over the built-in text
     ((App.settings.instruction || '').trim() ? '\n\n# Instructions from the user (apply to every project; they take precedence over the rules above when they conflict)\n' + App.settings.instruction.trim() : '');
@@ -1034,43 +1120,83 @@ function askUser(call, a) {
   });
 }
 
+const isTruncated = stop => stop === 'max_tokens' || stop === 'length';
+const completeArgs = a => { try { const j = JSON.parse(a || '{}'); return !!j && typeof j === 'object'; } catch (e) { return false; } };
+/** Auto limit of the answer length (as in the Android app). */
+const autoMaxTokens = provider => provider === 'anthropic' ? 32000 : 16000;
+/** A temporary failure worth repeating: the network, a stream cut off, the provider overloaded (5xx). */
+const transient = e => !!e && (e.net || e.status === 0 || e.status >= 500 || /overload/i.test(String(e.message)));
+const LIMIT_TEXT = n => '[App instruction] You have used up the limit of ' + n + ' steps in this answer – the app stopped the work. ' +
+  'Do NOT use tools now. Briefly tell the user: what you did, what works (and how you checked it), what does not work and what is left to do. ' +
+  'The user can tap "Kontynuuj" (Continue) to let you keep working.';
+const CONTINUE_TEXT = 'Kontynuuj pracę od miejsca, w którym przerwałeś.';
+/** Sleeps, but ends at once when the work is stopped. */
+const sleepAbortable = (ms, signal) => new Promise(res => { const t = setTimeout(res, ms); signal.addEventListener('abort', () => { clearTimeout(t); res(); }, { once: true }); });
+
 /** Sends the user's message and lets the model work with tools until it answers without calling one. */
 async function runAgent(text) {
   const p = App.project; if (App.busy) return;
   App.busy = true; App.abort = new AbortController(); App.ui.onBusy && App.ui.onBusy();
   if (text != null) p.chat.push({ id: uid(), role: 'user', text, ts: Date.now() });
   App.ui.onChat && App.ui.onChat();
-  const { provider, model } = modelOf(p);
-  try {
-    for (let step = 0; step < MAX_STEPS; step++) {
-      const live = { id: uid(), role: 'assistant', text: '', toolCalls: [], ts: Date.now(), live: true };
-      p.chat.push(live); App.ui.onChat && App.ui.onChat();
-      let reply;
+  const { provider, model } = modelOf(p), maxSteps = limit('maxSteps');
+  /** One model answer with automatic repeats after a network / provider failure (as many as in the settings). */
+  async function ask(live, maxTokens) {
+    for (let attempt = 0; ; attempt++) {
       try {
-        reply = await callModel({ provider, model, settings: App.settings, system: systemPrompt(p), chat: p.chat.slice(0, -1), tools: TOOLS, signal: App.abort.signal, effort: effortOf(p),
+        return await callModel({ provider, model, settings: App.settings, system: systemPrompt(p), chat: p.chat.slice(0, -1), tools: toolDefs(), signal: App.abort.signal, effort: effortOf(p), maxTokens,
           onReasoning: t => { live.reasoning = t; if (!live.progress || live.progress.thinking) live.progress = { thinking: true }; App.ui.onLive && App.ui.onLive(live); },
           onText: t => { live.text = t; live.progress = { writing: true }; App.ui.onLive && App.ui.onLive(live); },
           onProgress: pr => { live.progress = pr; App.ui.onLive && App.ui.onLive(live); } });
+      } catch (e) {
+        if (e && e.name === 'AbortError' || !transient(e) || attempt >= limit('netRetries')) throw e;
+        live.text = ''; delete live.reasoning; live.progress = { retry: attempt + 1 }; App.ui.onLive && App.ui.onLive(live);
+        await sleepAbortable(2000, App.abort.signal);
+        if (App.abort.signal.aborted) throw Object.assign(new Error('Stopped'), { name: 'AbortError' });
+      }
+    }
+  }
+  try {
+    for (let step = 0; ; step++) {
+      const summary = step === maxSteps;
+      if (summary) p.chat.push({ id: uid(), role: 'user', text: LIMIT_TEXT(maxSteps), hidden: true, check: 'limit', ts: Date.now() });
+      const live = { id: uid(), role: 'assistant', text: '', toolCalls: [], ts: Date.now(), live: true };
+      p.chat.push(live); App.ui.onChat && App.ui.onChat();
+      const setMax = limit('maxTokens');
+      let reply, max = setMax || autoMaxTokens(provider);
+      try {
+        reply = await ask(live, max);
+        // cut off by the length limit in the middle of a tool call (e.g. a big write_file): with Auto, once more with a double limit
+        if (!setMax && isTruncated(reply.stop) && reply.toolCalls.some(c => !completeArgs(c.args))) {
+          max *= 2; live.text = ''; live.progress = { longer: max }; App.ui.onLive && App.ui.onLive(live);
+          reply = await ask(live, max);
+        }
       } catch (e) { p.chat.pop(); throw e; }
       if (reply.usage) reply.usage = await priceUsage(provider, model, reply.usage, App.settings);
+      // after the step limit: only the summary counts – calls of tools are dropped (they would stay without results)
+      if (summary) reply.toolCalls = [];
       live.text = reply.text; live.toolCalls = reply.toolCalls; live.usage = reply.usage; delete live.live; delete live.progress;
       // the thinking stays in the interface only (it is never sent back): the text capped, the tokens exact when the provider says them
       const exact = reply.usage && reply.usage.reasoning || 0;
       if (reply.reasoning || exact) { live.reasoning = reply.reasoning.length > REASONING_KEEP ? reply.reasoning.slice(0, REASONING_KEEP) + '\n…' : reply.reasoning;
         live.reasoningTokens = exact || Math.round(reply.reasoning.length / 4); live.reasoningExact = !!exact; } else delete live.reasoning;
+      if (summary) { live.limit = true; if (!live.text) live.text = '(Model nie napisał podsumowania – wykorzystał limit ' + maxSteps + ' kroków.)'; saveSoon(); break; }
       if (!reply.text && !reply.toolCalls.length) { p.chat.pop(); p.chat.push({ id: uid(), role: 'assistant', text: '', error: 'Model zwrócił pustą odpowiedź' + (reply.stop ? ' (' + reply.stop + ')' : '') + '.', retry: true, ts: Date.now() }); break; }
       saveSoon(); App.ui.onChat && App.ui.onChat();
       if (!reply.toolCalls.length) break;
+      const cut = isTruncated(reply.stop);
       const results = [];
       for (const c of reply.toolCalls) {
         if (App.abort.signal.aborted) { results.push({ callId: c.id, name: c.name, content: 'Stopped by the user', isError: true }); continue; }
-        let r; try { r = c.name === 'ask_user' ? await askUser(c, parseArgs(c.args)) : await execTool(c.name, parseArgs(c.args)); } catch (e) { r = { content: 'Tool error: ' + (e && e.message || e), isError: true }; }
-        results.push({ callId: c.id, name: c.name, content: String(r.content).slice(0, RESULT_LIMIT), isError: !!r.isError });
+        let r;
+        if (cut && !completeArgs(c.args)) r = { content: 'Your answer was cut off by the length limit (' + max + ' tokens) while you were writing the arguments of ' + c.name +
+          ' – nothing was done. Write big files in parts: write_file with the first part (about 8000 characters), then append_file for the rest.', isError: true };
+        else try { r = c.name === 'ask_user' ? await askUser(c, parseArgs(c.args)) : await execTool(c.name, parseArgs(c.args)); } catch (e) { r = { content: 'Tool error: ' + (e && e.message || e), isError: true }; }
+        results.push({ callId: c.id, name: c.name, content: String(r.content), isError: !!r.isError });
       }
       p.chat.push({ id: uid(), role: 'tool', toolResults: results, ts: Date.now() });
       saveSoon(); App.ui.onChat && App.ui.onChat();
       if (App.abort.signal.aborted) break;
-      if (step === MAX_STEPS - 1) p.chat.push({ id: uid(), role: 'assistant', text: '', error: 'Osiągnięto limit ' + MAX_STEPS + ' kroków. Napisz „kontynuuj”, żeby model pracował dalej.', ts: Date.now() });
     }
   } catch (e) {
     if (!(e && e.name === 'AbortError')) p.chat.push({ id: uid(), role: 'assistant', text: '', error: String(e && e.message || e), retry: true,
@@ -1153,10 +1279,105 @@ function skillChecks(selected) {
     h('span', {}, h('b', {}, s.name), h('br'), h('span', { class: 'muted small' }, s.description.split('. ')[0] + '.'))));
 }
 
+/** Number fields of "Limity i czekanie": [key, label, hint, unit]. */
+const LIMIT_FIELDS = [
+  ['maxSteps', 'Limit kroków AI', 'Zapytania do modelu w jednej pracy; po limicie model podsumowuje, a „Kontynuuj” wznawia', ''],
+  ['runJsWaitS', 'run_js – wynik Promise', 'Czekanie na wynik kodu asynchronicznego', 's'],
+  ['checkWaitS', 'Kontrola świata – gotowość', 'Czekanie, aż ekran się ustali albo świat zdejmie sygnał ładowania', 's'],
+  ['waitForS', 'interact_world – krok waitFor', 'Czekanie na element albo tekst na ekranie', 's'],
+  ['readFileChars', 'read_file – treść pliku', 'Dłuższy plik model dostaje ucięty z dopiskiem', 'znaków'],
+  ['runJsChars', 'run_js – wynik kodu', 'Wynik kodu JavaScript', 'znaków'],
+  ['worldDataChars', 'read_world_data – dane świata', 'Wszystkie dane zapisane przez andrut.setData', 'znaków'],
+  ['consoleChars', 'read_console – konsola', 'Zostają najnowsze wpisy, starsze są ucinane', 'znaków'],
+  ['netRetries', 'Ponowienia po błędzie sieci', 'Automatyczne ponowienie zapytania po 2 s (0 = od razu błąd z „Ponów”)', ''],
+  ['maxTokens', 'Limit długości odpowiedzi', 'Puste = Auto (Claude 32 000, inni 16 000; przy uciętym zapisie pliku raz podwójny)', 'tokenów'],
+];
+const fmtInt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+/** Section "Limity i czekanie": the value outside the range is clamped (the field shows the error and what will be saved). */
+function limitsSection(s) {
+  const rows = LIMIT_FIELDS.map(([key, label, hint, unit]) => {
+    const [, min, max] = LIMITS[key], auto = key === 'maxTokens';
+    const info = h('div', { class: 'muted small' });
+    const inp = h('input', { type: 'text', inputmode: 'numeric', 'aria-label': label, 'data-limit': key, placeholder: auto ? 'Auto' : '',
+      value: auto && !limit(key, s) ? '' : String(limit(key, s)) });
+    const show = () => {
+      const raw = inp.value.replace(/\D/g, ''); if (raw !== inp.value) inp.value = raw;
+      s[key] = raw === '' ? (auto ? 0 : NaN) : +raw;
+      const saved = limit(key, s), typed = raw === '' ? null : +raw, bad = !(auto && !typed) && (typed === null || typed < min || typed > max);
+      inp.classList.toggle('bad', bad);
+      info.textContent = hint + ' (' + fmtInt(min) + '–' + fmtInt(max) + (unit ? ' ' + unit : '') + ')' + (bad ? ' · zapisano: ' + fmtInt(saved) + (unit ? ' ' + unit : '') : '');
+    };
+    inp.addEventListener('input', show); show();
+    return h('div', {}, h('label', {}, label), inp, info);
+  });
+  const reset = h('button', { type: 'button', onclick: () => { for (const [k, v] of Object.entries(LIMITS)) s[k] = v[0];
+    for (const inp of box.querySelectorAll('input[data-limit]')) { const k = inp.dataset.limit; inp.value = k === 'maxTokens' && !s[k] ? '' : String(s[k]); inp.dispatchEvent(new Event('input')); } } }, 'Przywróć domyślne');
+  const box = h('div', { class: 'limits' }, h('h2', { style: 'margin-top:16px;font-size:15px' }, 'Limity i czekanie'),
+    h('div', { class: 'muted small' }, 'Jak dużo AI może pracować w jednej odpowiedzi, ile czekają narzędzia i ile znaków ich wyników dostaje model. Większe limity pomagają przy dużych zadaniach, ale kosztują więcej tokenów.'),
+    ...rows, h('div', { style: 'margin-top:8px' }, reset));
+  return box;
+}
+
+/** Section "Kopia zapasowa": the whole app (settings + all projects) to one ZIP and back. onImported() closes the settings. */
+function backupSection(onImported) {
+  const exportAll = async () => {
+    const keys = h('input', { type: 'checkbox' }), warn = h('div', { class: 'notice', hidden: true }, 'Plik z kluczami API trzeba chronić – kto go ma, może korzystać z Twoich kluczy.');
+    keys.onchange = () => { warn.hidden = !keys.checked; };
+    const projects = await DB.all();
+    const ok = await dialog('Eksport całej aplikacji', h('div', {}, h('p', {}, 'Ustawienia i wszystkie projekty (' + projects.length + ') w jednym pliku ZIP.'),
+      h('label', { class: 'check' }, keys, h('span', {}, 'Dołącz klucze API')), warn), [{ label: 'Anuluj', value: false }, { label: 'Eksportuj', value: true, primary: true }]);
+    if (!ok) return;
+    download('andrut-lite-kopia-' + new Date().toISOString().slice(0, 10) + '.zip', await exportBackup(projects, App.settings, keys.checked));
+    toast('Wyeksportowano ' + projects.length + ' projektów');
+  };
+  const pick = h('input', { type: 'file', accept: '.zip', hidden: true, onchange: async () => {
+    const f = pick.files[0]; pick.value = ''; if (!f) return;
+    let b; try { b = await readBackup(await f.arrayBuffer()); } catch (e) { toast('Import nie powiódł się: ' + e.message + ' – nic nie zmieniono'); return; }
+    if (b.single) { const p = await importFiles([f]); if (p) onImported(); return; }
+    const when = b.info.created ? new Date(b.info.created).toLocaleString('pl-PL') : '?';
+    const mode = await dialog('Import kopii', h('div', {}, h('p', {}, 'Kopia z ' + when + ': ' + b.projects.length + ' projektów, ' + (b.info.keys ? 'z kluczami API.' : 'bez kluczy API (Twoje zostaną).')),
+      h('p', { class: 'muted small' }, 'Ustawienia z kopii zastąpią obecne. „Dodaj” zastępuje tylko projekty, które są w kopii (ten sam projekt), „Zastąp wszystko” usuwa najpierw wszystkie obecne projekty.')),
+      [{ label: 'Anuluj', value: null }, { label: 'Zastąp wszystko', value: 'replace', danger: true }, { label: 'Dodaj do istniejących', value: 'add', primary: true }]);
+    if (!mode) return;
+    if (mode === 'replace' && !(await confirmDlg('Zastąpić wszystko?', 'Wszystkie obecne projekty zostaną usunięte z tej przeglądarki i zastąpione kopią.', 'Zastąp', true))) return;
+    App.settings = await applyBackup(b, mode, App.settings); Settings.save(App.settings);
+    toast('Zaimportowano ' + b.projects.length + ' projektów');
+    onImported();
+  } });
+  return h('div', {}, h('h2', { style: 'margin-top:16px;font-size:15px' }, 'Kopia zapasowa'),
+    h('div', { class: 'muted small' }, 'Cała aplikacja – ustawienia i wszystkie projekty (światy, czaty, dane) – w jednym pliku ZIP. Każdy projekt jest w środku osobnym ZIP-em, który można zaimportować także w Andrucie na Androida.'),
+    h('div', { class: 'rowf', style: 'margin-top:8px' }, h('button', { type: 'button', onclick: exportAll }, 'Eksportuj wszystko (ZIP)'), h('button', { type: 'button', onclick: () => pick.click() }, 'Importuj kopię (ZIP)')), pick);
+}
+
+/** Section "Instrukcja modelu" (collapsed): the built-in instruction to read and change, with "Przywróć domyślną" and the notice about a newer built-in one. */
+function instructionSection(s) {
+  const area = h('textarea', { class: 'mono', rows: 14, spellcheck: 'false', 'aria-label': 'Instrukcja modelu' }, (s.modelInstruction || '').trim() ? s.modelInstruction : PROMPT);
+  const state = h('span', { class: 'muted small' }), count = h('span', { class: 'muted small' });
+  const newer = h('div', { class: 'notice', hidden: !newerBuiltIn(s) }, 'Jest nowsza wbudowana instrukcja. ',
+    h('button', { type: 'button', onclick: () => dialog('Wbudowana instrukcja', h('textarea', { class: 'mono', rows: 18, readonly: true, 'aria-label': 'Wbudowana instrukcja' }, PROMPT), [{ label: 'Zamknij', value: true, primary: true }]) }, 'Pokaż'), ' ',
+    h('button', { type: 'button', onclick: () => { area.value = PROMPT; upd(); } }, 'Użyj nowej'));
+  const upd = () => {
+    const own = area.value.trim() && area.value.trim() !== PROMPT.trim();
+    state.textContent = own ? 'zmieniona przez Ciebie' : 'domyślna'; count.textContent = fmtInt(area.value.length) + ' znaków';
+    if (!own) newer.hidden = true;
+    const prev = (App.settings.modelInstruction || '').trim() ? App.settings.modelInstruction : '';
+    s.modelInstruction = own ? area.value : '';
+    // an own text remembers which built-in instruction it was made from; unchanged it keeps the earlier mark
+    s.modelInstructionBase = !own ? '' : area.value === prev ? App.settings.modelInstructionBase || '' : textHash(PROMPT);
+  };
+  area.addEventListener('input', upd); upd();
+  return h('details', { class: 'instr' }, h('summary', {}, 'Instrukcja modelu ', state),
+    h('div', { class: 'muted small' }, 'Wbudowana instrukcja, którą model dostaje na początku każdej rozmowy (po angielsku). Zmieniony tekst zastępuje wbudowany; lista skilli, dane projektu i instrukcja globalna są doklejane jak zwykle. Puste pole = domyślna.'),
+    newer, area, h('div', { class: 'rowf', style: 'align-items:center;margin-top:6px' }, count,
+      h('button', { type: 'button', onclick: () => { area.value = PROMPT; upd(); } }, 'Przywróć domyślną')));
+}
+
 async function settingsDialog() {
   const s = Object.assign({}, App.settings), st = { provider: s.provider, model: s.model };
+  let imported = false;
   const field = (label, key, hint, type) => { const i = h('input', { type: type || 'text', placeholder: hint || '', value: s[key] || '', autocomplete: 'off', 'aria-label': label, oninput: () => { s[key] = i.value.trim(); App.settings[key] = s[key]; } }); return [h('label', {}, label), i]; };
   const instr = h('textarea', { rows: 4, placeholder: 'np. Odpowiadaj zawsze po polsku. Używaj ciemnego motywu.', 'aria-label': 'Instrukcja globalna', oninput: () => { s.instruction = instr.value; } }, s.instruction || '');
+  const before = Object.assign({}, App.settings);
   const body = h('div', {},
     h('p', { class: 'muted small' }, 'Klucze są zapisane tylko w tej przeglądarce i wysyłane wyłącznie do wybranego dostawcy.'),
     field('Klucz OpenRouter', 'orKey', PROVIDERS.openrouter.keyHint + '  (' + PROVIDERS.openrouter.keyUrl + ')', 'password'),
@@ -1168,10 +1389,14 @@ async function settingsDialog() {
     h('div', { class: 'muted small' }, 'Dotyczy Claude\'a bezpośrednio i modeli anthropic/* przez OpenRouter. Odczyt z cache kosztuje ok. 10% ceny wejścia.'),
     field('Twoje imię (dla światów i modelu)', 'userName'),
     h('label', {}, 'Instrukcja globalna (dla wszystkich projektów)'), instr,
-    h('div', { class: 'muted small' }, 'Dopisywana na końcu wbudowanej instrukcji modelu; w razie sprzeczności ma pierwszeństwo. Puste pole nic nie zmienia.'));
-  const before = Object.assign({}, App.settings);
+    h('div', { class: 'muted small' }, 'Dopisywana na końcu wbudowanej instrukcji modelu; w razie sprzeczności ma pierwszeństwo. Puste pole nic nie zmienia.'),
+    limitsSection(s),
+    backupSection(() => { imported = true; const d = body.closest('dialog'); if (d) d.dispatchEvent(new Event('cancel')); }),
+    instructionSection(s));
   const ok = await dialog('Ustawienia', body, [{ label: 'Anuluj', value: false }, { label: 'Zapisz', value: true, primary: true }]);
+  if (imported) return;
   if (!ok) { App.settings = before; return; }
+  for (const k of Object.keys(LIMITS)) s[k] = limit(k, s);
   App.settings = Object.assign(s, { provider: st.provider || 'openrouter', model: st.model || '' }); Settings.save(App.settings);
   toast('Zapisano ustawienia');
 }
@@ -1268,6 +1493,8 @@ function md(text) {
 const fmtTok = n => n < 1000 ? String(n) : (n / 1000).toFixed(1).replace('.', ',') + ' tys.';
 /** What a live entry of the chat is doing: shown as the status and, when the page was interrupted, in the error. */
 function liveLabel(m) { const pr = m.progress || {};
+  if (pr.retry) return 'Połączenie przerwane – ponawiam (' + pr.retry + ')';
+  if (pr.longer) return 'Odpowiedź ucięta – ponawiam z większym limitem';
   if (pr.tool) return 'Model przygotowuje: ' + pr.tool + (pr.chars > 200 ? ' · ' + (pr.chars < 1000 ? pr.chars + ' znaków' : (pr.chars / 1000).toFixed(1).replace('.', ',') + ' tys. znaków') : '');
   return pr.writing ? 'Model pisze' : 'Model myśli'; }
 const thinkEst = m => Math.round((m.reasoning || '').length / 4);
@@ -1391,6 +1618,8 @@ async function openProject(id) {
       for (const c of m.toolCalls || []) out.push(c.name === 'ask_user' ? askCard(c, results.find(r => r.callId === c.id)) : toolLine(c, results.find(r => r.callId === c.id)));
       if (!m.live && m.usage && (m.usage.cacheRead || m.usage.cacheWrite)) { const u = m.usage;
         out.push(h('div', { class: 'muted small cacheline' }, 'cache: ' + (u.input ? Math.round(100 * u.cacheRead / u.input) : 0) + '% promptu z pamięci (' + fmtTok(u.cacheRead) + ' z ' + fmtTok(u.input) + ' tokenów)' + (u.cacheWrite ? ' · zapisano ' + fmtTok(u.cacheWrite) : ''))); }
+      if (m.limit && next === undefined && !App.busy) out.push(h('div', { class: 'row limitbox' }, h('span', { class: 'muted small' }, 'Wykorzystano limit kroków.'),
+        h('button', { class: 'primary continue', onclick: () => { if (App.busy) return; const md2 = modelOf(p); if (!App.settings[PROVIDERS[md2.provider].keyField]) return toast('Brak klucza ' + PROVIDERS[md2.provider].label + ' – wpisz go w ustawieniach'); runAgent(CONTINUE_TEXT); } }, 'Kontynuuj')));
       if (m.error) out.push(errorBox(m, next === undefined));
     }
     return out;
