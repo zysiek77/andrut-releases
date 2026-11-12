@@ -5,6 +5,10 @@ małe aplikacje tworzone i zmieniane na bieżąco w czacie lub głosem.
 
 **Najnowsza wersja: 0.1.96** – [pobierz andrut.apk](https://github.com/zysiek77/andrut-releases/raw/main/andrut.apk)
 
+## Andrut Lite i przykładowe światy
+- [`andrut-lite.html`](https://github.com/zysiek77/andrut-releases/raw/main/andrut-lite.html) – wersja przeglądarkowa w jednym pliku (pobierz i otwórz w przeglądarce; klucz API wpisujesz w ustawieniach).
+- [`swiaty/`](swiaty) – gotowe światy do importu (w aplikacji i w Andrut Lite: Importuj → plik `.andrut.zip`): fiori-products, fiori-salesorder, fps-template, ui5-test, wnp-reader.
+
 ## Pierwsza instalacja
 1. Otwórz link do `andrut.apk` na telefonie lub tablecie i pobierz plik.
 2. Otwórz pobrany plik. Android zapyta o zgodę na instalację z tego źródła (przeglądarki / menedżera plików) – zezwól.
