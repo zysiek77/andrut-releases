@@ -7,7 +7,7 @@ małe aplikacje tworzone i zmieniane na bieżąco w czacie lub głosem.
 
 ## Andrut Lite i przykładowe światy
 - [`andrut-lite.html`](https://github.com/zysiek77/andrut-releases/raw/main/andrut-lite.html) – wersja przeglądarkowa w jednym pliku (pobierz i otwórz w przeglądarce; klucz API wpisujesz w ustawieniach).
-- [`swiaty/`](swiaty) – gotowe światy do importu (w aplikacji i w Andrut Lite: Importuj → plik `.andrut.zip`): fiori-products, fiori-salesorder, fps-template, ui5-test, wnp-reader.
+- [`swiaty/`](swiaty) – gotowe światy do importu (w aplikacji i w Andrut Lite: Importuj → plik `.andrut.zip`): fiori-products, fiori-salesorder, fiori-unit-registration-vms, fps-template, ui5-test, wnp-reader.
 
 ## Pierwsza instalacja
 1. Otwórz link do `andrut.apk` na telefonie lub tablecie i pobierz plik.
