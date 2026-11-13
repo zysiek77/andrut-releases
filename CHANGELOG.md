@@ -1,5 +1,9 @@
 # Historia zmian
 
+## 0.1.124 – 2026-11-13
+
+Skill Fiori Elements: zapisane wiersze z datami ISO i polami __ref są naprawiane przy starcie (pusta lista znika), prawdziwe hooki V2 i diagnoza błędu „Fake XHR”. Streszczanie rozmowy: Twoja wiadomość widoczna od razu, licznik czasu, Zatrzymaj naprawdę zatrzymuje (z „Ponów”), naprawiona awaria aplikacji przy bardzo krótkiej pracy AI. Menu ⋮ karty projektu: eksport ZIP i udostępnianie HTML. Okno „Nowy projekt”: ustawienia AI i tryb jasny/ciemny. Praca etapami jako fragment instrukcji modelu. Ustawienia aplikacji: Oszczędny kontekst – stałe informacje AI dostaje raz.
+
 ## 0.1.118 – 2026-11-12
 
 Ustawienia aplikacji → Diagnostyka → „Przeglądaj dziennik”: wpisy z filtrami (wszystko / ostrzeżenia / błędy, tagi), szukaniem, zwijanym stosem wywołań i kopiowaniem przytrzymaniem. Nowa sekcja „Limity i czekanie” w Andrucie i Andrut Lite: limit kroków AI 25 (80 przy pracy etapami), czasy narzędzi, limity znaków read_file / run_js / read_world_data / read_console, ponowienia po błędzie sieci, limit długości odpowiedzi, liczniki kontroli świata, auto-naprawy, ponagleń planu i restartów podglądu, „Przywróć domyślne”. Andrut Lite: podsumowanie i „Kontynuuj” po limicie kroków, edycja wbudowanej instrukcji modelu, eksport i import całej aplikacji (ustawienia i wszystkie projekty) w ZIP.
